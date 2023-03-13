@@ -64,7 +64,7 @@ Usage:
   python3 androvw.py --build --ngrok [flags]
   Flags:
     -p, --port              Attacker port number (optional by default its set to 8000)
-    -o, --output            Name for the apk file (optional by default its set to "karma.apk")
+    -o, --output            Name for the apk file (optional by default its set to "test.apk")
     -icon, --icon           Visible icon after installing apk (by default set to hidden)
 ```
 
