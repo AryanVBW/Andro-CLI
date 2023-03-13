@@ -149,9 +149,8 @@ In the sh shell there are some sub commands
 * Add screenshot command
 
 
-## License
-AndrovW is licensed under MIT license take a look at the [LICENSE](LICENSE) for more information.
-Secial Thanks  <a href="https://twitter.com/karma9874">*Niraj Singh*
+## Special Thanks
+ <a href="https://twitter.com/karma9874">*Niraj Singh*
 
 <br>
 <p align="center">Made with ❤️ By <a href="whiteDevilVBW@proton.me">*Aryan*</a></p>
