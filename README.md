@@ -141,7 +141,7 @@ In the sh shell there are some sub commands
 ------------------------------------------------------------------------------------------------------------------------------
 
 ## Supporters:
-[!Mangesh]()
+[Mangesh]()
 
 ## TODO
 * set up protmap.io
