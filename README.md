@@ -15,7 +15,7 @@ Andro-VW is a tool designed to give the control of the android system remotely a
 
 ## Screenshots
 
-![AndroRAT](Screenshots/5.jpg "AndroRAT in action")
+![AndroRAT](Screenshots/5.png "AndroRAT in action")
 ## Features of AndroRAT 
 * Full persistent backdoor
 * Invisible icon on install
@@ -130,13 +130,13 @@ In the sh shell there are some sub commands
 ## Interpreter Examples
 * Generating APK
 <p align="center">
-  <img src="Screenshots/6.JPG" width="800"/>
+  <img src="Screenshots/6.png" width="800"/>
 </p>
 ------------------------------------------------------------------------------------------------------------------------------  
 
 * Some interpreter Commands 
 <p align="center">
-  <img src="Screenshots/1.JPG" width="800"/>
+  <img src="Screenshots/1.png" width="800"/>
 </p>
 ------------------------------------------------------------------------------------------------------------------------------
 
