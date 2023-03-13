@@ -1,5 +1,5 @@
 **Disclaimer** : This software is meant for educational purposes only. we are not responsible for any malicious use of the app.
-# Andro_vW
+# Andro-vW
 
 Andro-VW is a tool designed to give the control of the android system remotely and retrieve informations from it. Andro-VW is a client/server application developed in Java Android for the client side and the Server is in Python.
 
