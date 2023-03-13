@@ -151,7 +151,7 @@ In the sh shell there are some sub commands
 
 ## License
 AndrovW is licensed under MIT license take a look at the [LICENSE](LICENSE) for more information.
-secial Thanks [Niraj]https://twitter.com/karma9874 <a href="whiteDevilVBW@proton.me">*Aryan*
+Secial Thanks  <a href="https://twitter.com/karma9874">*Niraj Singh*
 
 <br>
 <p align="center">Made with ❤️ By <a href="whiteDevilVBW@proton.me">*Aryan*</a></p>
