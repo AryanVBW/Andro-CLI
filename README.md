@@ -135,7 +135,7 @@ In the sh shell there are some sub commands
 ------------------------------------------------------------------------------------------------------------------------------
 
 ## Supporters:
-[![rayep](https://avatars.githubusercontent.com/u/40718616?v=4&s=60)](https://github.com/rayep)
+[![rayep]()
 
 ## TODO
 * set up protmap.io
