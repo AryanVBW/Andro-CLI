@@ -140,8 +140,7 @@ In the sh shell there are some sub commands
 </p>
 ------------------------------------------------------------------------------------------------------------------------------
 
-## Supporters:
-[Mangesh]()
+
 
 ## TODO
 * set up protmap.io
