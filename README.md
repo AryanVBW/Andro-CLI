@@ -31,8 +31,8 @@ Andro-vW requires Python3 and JAVA (or Android Studio)
 
 ## Installation
 ```
-git clone 
-cd AndroRAT
+git clone https://github.com/AryanVBW/Arndro-Vw
+cd Arndro-Vw
 pip install -r requirements.txt
 ```
 #### Note: 
