@@ -15,8 +15,8 @@ Andro-VW is a tool designed to give the control of the android system remotely a
 
 ## Screenshots
 
-![AndroRAT](Screenshots/5.png "AndroRAT in action")
-## Features of AndroRAT 
+![Andro-CLI](Screenshots/5.png "AndroRAT in action")
+## Features of Andro-CLI
 * Full persistent backdoor
 * Invisible icon on install
 * Light weight apk which runs 24*7 in background
@@ -27,7 +27,7 @@ Andro-VW is a tool designed to give the control of the android system remotely a
 
 
 ## Prerequisites
-Andro-vW requires Python3 and JAVA (or Android Studio)
+Andro-CLI requires Python3 and JAVA (or Android Studio)
 
 ## Installation
 ```
