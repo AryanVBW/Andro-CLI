@@ -1,5 +1,4 @@
-**Disclaimer** : This software is meant for educational purposes only. we are not responsible for any malicious use of the app.
-# Andro-CLI
+
 <p align="center">
 <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" height="100"><br>
 A python based remote android managment suite, powered by nodejs
@@ -154,4 +153,4 @@ In the sh shell there are some sub commands
 <br>
 <p align="center">Made with ❤️ By <a href="whiteDevilVBW@proton.me">*Aryan*</a></p>
 <p align="center" style="font-size: 8px">v1.1.2</p>
-
+**Disclaimer** : This software is meant for educational purposes only. we are not responsible for any malicious use of the app.
