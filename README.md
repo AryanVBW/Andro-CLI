@@ -2,7 +2,7 @@
 # Andro-CLI
 <p align="center">
 <img src="https://github.com/ARYAN122333/L3MON/blob/main/logo.png" height="100"><br>
-A python based remote android managment suite, powered by ARYAN 
+A python based remote android managment suite, powered by nodejs
 </p>
 
 
