@@ -22,7 +22,7 @@ print("""
   / /\ \ | '_ \ / _` | '__/ _ \        \ \ / /\ \/  \/ /  
  / ____ \| | | | (_| | | | (_) |-HAKING-\ V /  \  /\  /   
 /_/    \_\_| |_|\__,_|_|  \___/          \_/    \/  \/    
-                                          - By AryanVBW
+                                          - By Vivek W
                                           """) 
 
 parser = argparse.ArgumentParser(usage="%(prog)s [--build] [--shell] [-i <IP> -p <PORT> -o <apk name>]")
