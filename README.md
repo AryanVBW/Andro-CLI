@@ -1,7 +1,7 @@
 **Disclaimer** : This software is meant for educational purposes only. we are not responsible for any malicious use of the app.
 # Andro-CLI
 <p align="center">
-<img src="https://github.com/ARYAN122333/L3MON/blob/main/logo.png" height="100"><br>
+<img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless.png" height="100"><br>
 A python based remote android managment suite, powered by nodejs
 </p>
 
