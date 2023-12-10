@@ -14,7 +14,7 @@ Andro-CLI is a tool designed to give the control of the android system remotely 
 
 ## Screenshots
 
-![Andro-CLI](Screenshots/5.png "AndroRAT in action")
+![Andro-CLI](Screenshots/5.png "Andro-CLI in action")
 ## Features of Andro-CLI
 * Full persistent backdoor
 * Invisible icon on install
