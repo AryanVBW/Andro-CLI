@@ -145,7 +145,7 @@ In the sh shell there are some sub commands
 * set up protmap.io
 * Set up multi client
 * Add screenshot command
-
+* add Google firebase support 
 
 ## Special Thanks
  <a href="https://twitter.com/karma9874">*Niraj Singh*
