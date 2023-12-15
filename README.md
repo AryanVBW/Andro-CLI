@@ -35,6 +35,7 @@ cd Arndro-CLI
 pip install -r requirements.txt
 ```
 #### Note: 
+Set up port forwarding easily using [Pagekite](https://pagekite.net/) / [packetriot](https://packetriot.com/) for smoother device connections!
 While cloning the repository using Git bash on Windows, you may get the following error:
 > error: unable to create file \<filename>: Filename too long
 
