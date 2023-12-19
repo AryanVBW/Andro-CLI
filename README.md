@@ -30,8 +30,8 @@ Andro-CLI requires Python3<img src="https://raw.githubusercontent.com/AryanVBW/A
 
 ## Installation
 ```
-git clone https://github.com/AryanVBW/Arndro-CLI
-cd Arndro-CLI
+wget https://github.com/AryanVBW/Andro-CLI/releases/download/ARDro2/androcli.zip && unzip androcli.zip
+cd androcli
 pip install -r requirements.txt
 ```
 #### Note: 
