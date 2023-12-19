@@ -34,25 +34,6 @@ wget https://github.com/AryanVBW/Andro-CLI/releases/download/ARDro2/androcli.zip
 cd androcli
 pip install -r requirements.txt
 ```
-#### Note: 
-Set up port forwarding easily using [Pagekite](https://pagekite.net/) / [packetriot](https://packetriot.com/) for smoother device connections!
-
-While cloning the repository using Git bash on Windows, you may get the following error:
-> error: unable to create file \<filename>: Filename too long
-
-This is because the Git has a limit of 4096 characters for a filename, except on Windows when Git is compiled with msys. It uses an older version of the Windows API and there's a limit of 260 characters for a filename. 
-
-You can circumvent this by setting `core.longpaths` to `true`.
-
-> git config --system core.longpaths true
-
-You must run Git bash with administrator privileges. 
-
-## Usage (Windows and Linux)
-
-* To get the control panel of the app dial `*#*#1337#*#*` (For now it has only two options `Restart Activity` and `Uninstall`)
-> Note: In order to use this feature in some devices you need to enable the option `display pop-up windows running in background` from the settings.
-
 ### Available Modes
 * `--build` - for building the android apk 
 * `--ngrok` - for using ngrok tunnel (over the internet)
@@ -141,7 +122,24 @@ In the sh shell there are some sub commands
 </p>
 ------------------------------------------------------------------------------------------------------------------------------
 
+#### Note: 
+Set up port forwarding easily using [Pagekite](https://pagekite.net/) / [packetriot](https://packetriot.com/) for smoother device connections!
 
+While cloning the repository using Git bash on Windows, you may get the following error:
+> error: unable to create file \<filename>: Filename too long
+
+This is because the Git has a limit of 4096 characters for a filename, except on Windows when Git is compiled with msys. It uses an older version of the Windows API and there's a limit of 260 characters for a filename. 
+
+You can circumvent this by setting `core.longpaths` to `true`.
+
+> git config --system core.longpaths true
+
+You must run Git bash with administrator privileges. 
+
+## Usage (Windows and Linux)
+
+* To get the control panel of the app dial `*#*#1337#*#*` (For now it has only two options `Restart Activity` and `Uninstall`)
+> Note: In order to use this feature in some devices you need to enable the option `display pop-up windows running in background` from the settings.
 
 ## TODO
 * set up protmap.io
