@@ -63,7 +63,7 @@ Usage:
     -icon, --icon           Visible icon after installing apk (by default set to hidden)
 ```
 
-Or you can manually build the apk by importing [Android Code](Android_Code) folder to Android Studio and changing the IP address and port number in [config.java](Android_Code/app/src/main/java/com/example/reverseshell2/config.java) file and then you can generate the signed apk from `Android Studio -> Build -> Generate Signed APK(s)`
+Or you can manually build the apk by importing [Android Code](https://github.com/AryanVBW/Andro-CLI/releases/download/ARDro2/Android_Code.zip) folder to Android Studio and changing the IP address and port number in [config.java](https://github.com/AryanVBW/Andro-CLI/releases/download/ARDro2/config.java) file and then you can generate the signed apk from `Android Studio -> Build -> Generate Signed APK(s)`
 ### `shell` mode
 ```
 Usage:
