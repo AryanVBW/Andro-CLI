@@ -15,7 +15,7 @@ Andro-CLI is a tool designed to give the control of the android system remotely 
 ## Screenshots
 
 ![Andro-CLI](Screenshots/5.png "Andro-CLI in action")
-## Features of Andro-CLI
+## Features of Andro-CLI<img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" height="20">
 * Full persistent backdoor
 * Invisible icon on install
 * Light weight apk which runs 24*7 in background
