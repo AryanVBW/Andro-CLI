@@ -156,4 +156,5 @@ You must run Git bash with administrator privileges.
 <br>
 <p align="center">Made with ❤️ By <a href="whiteDevilVBW@proton.me">*Aryan*</a></p>
 <p align="center" style="font-size: 8px">v1.1.2</p>
+
 **Disclaimer** : This software is meant for educational purposes only. we are not responsible for any malicious use of the app.
