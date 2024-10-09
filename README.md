@@ -1,7 +1,7 @@
 
 <p align="center">
 <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" height="100"><br>
-A python based remote android managment suite, powered by nodejs
+A python based remote android managment suite, powered by Python
 </p>
 
 
