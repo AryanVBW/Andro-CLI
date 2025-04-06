@@ -26,7 +26,7 @@ banner = """\033[1m\033[91m
  / ____ \| | | | (_| | | | (_) |-HAKING-\ V /  \  /\  /   
 /_/    \_\_| |_|\__,_|_|  \___/          \_/    \/  \/    
      
-                                    \033[93m- By Vivek W
+                                    \033[93m- By AryanVBW
 """
 
 pattern = '\"(\\d+\\.\\d+).*\"'
@@ -372,7 +372,7 @@ def build(ip,port,output,ngrok=False,ng=None,icon=None):
     #version_no = re.search(pattern, java_version.stderr).groups()[0]
     # if float(version_no) > 1.8: print(stdOutput("error")+"Java 8 is required, Java version found "+version_no);exit()
     print(stdOutput("info")+"\033[0mGenerating APK")
-    outFileName = output if output else "karma.apk"
+    outFileName = output if output else "andro-cli.apk"
     que = queue.Queue()
     t = threading.Thread(target=executeCMD,args=["java -jar Jar_utils/apktool.jar b Compiled_apk  -o "+outFileName,que],)
     t.start()

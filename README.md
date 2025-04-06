@@ -1,4 +1,3 @@
-
 <p align="center">
 <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" height="100"><br>
 A python based remote android managment suite, powered by Python
@@ -37,6 +36,30 @@ wget https://github.com/AryanVBW/Andro-CLI/releases/download/ARDro2/androcli.zip
 cd androcli
 pip install -r requirements.txt
 ```
+
+### Using Virtual Environment (Recommended)
+It's recommended to use a virtual environment to avoid conflicts with other Python packages:
+
+```bash
+# Install virtualenv if not installed
+pip install virtualenv
+
+# Create a virtual environment
+python -m venv andro-env
+
+# Activate the virtual environment
+# On Windows
+andro-env\Scripts\activate
+# On macOS/Linux
+source andro-env/bin/activate
+
+# Install requirements
+pip install -r requirements.txt
+
+# When finished, deactivate the environment
+deactivate
+```
+
 ### Available Modes
 * `--build` - for building the android apk 
 * `--ngrok` - for using ngrok tunnel (over the internet)
