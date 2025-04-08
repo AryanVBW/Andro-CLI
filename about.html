@@ -97,6 +97,86 @@
             transform-origin: left;
         }
 
+        .dedication-text {
+            background: rgba(255, 0, 128, 0.05);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 0, 128, 0.1);
+            margin: 2rem 0;
+        }
+
+        .dedication-text p {
+            font-style: italic;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .dedication-text p:before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -0.5rem;
+            font-size: 2rem;
+            color: var(--accent-color);
+            opacity: 0.5;
+        }
+
+        .special-thanks {
+            background: linear-gradient(135deg, rgba(255, 0, 128, 0.05), rgba(0, 128, 255, 0.05));
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 0, 128, 0.1);
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .special-thanks:before {
+            content: '🎉';
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            font-size: 1.5rem;
+            opacity: 0.3;
+        }
+
+        .special-thanks p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .special-thanks a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .special-thanks a:hover {
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+        }
+
+        .special-thanks a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .special-thanks a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
         .contact-links {
             display: flex;
             gap: 1rem;
@@ -275,6 +355,35 @@
                     <h1>About Andro-CLI<span class="terminal-cursor"></span></h1>
                 </div>
                 
+                <div class="about-card">
+                    <div class="about-text">
+                        <h2>About Andro-CLI</h2>
+                        <p>Andro-CLI is a powerful Android remote management suite built with Python. It provides a comprehensive set of tools for managing Android devices remotely, with features ranging from basic device information retrieval to advanced media control and location tracking.</p>
+                        
+                        <h2>Dedication</h2>
+                        <div class="dedication-text">
+                            <p>This theme is lovingly dedicated to someone very special in my life - Mr. J. He's the kind of person whose ever-smiling face brings me endless motivation and happiness. His presence reminds me to stay positive and keep spreading joy wherever I can.</p>
+                            
+                            <p>Everything I do in the open-source world is driven by a desire to help others grow - not just in skills or knowledge, but in spirit and happiness. To me, real growth isn't measured by wealth or status, but by how much goodness and joy we bring into others' lives.</p>
+                            
+                            <p>I kindly request everyone using this tool to use it with love and care - not to harm anyone, but to learn, explore, and have fun. Let this be something that brings people together and lights up hearts.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-text">
+                        <h2>Special Thanks</h2>
+                        <div class="special-thanks">
+                            <p>I would like to extend my deepest gratitude to <a href="https://github.com/karma9874" target="_blank">Neeraj Singh</a> (karma9874), the brilliant creator of <a href="https://github.com/karma9874/AndroRAT" target="_blank">AndroRAT</a>.</p>
+                            
+                            <p>AndroRAT served as a significant inspiration and reference point in the development of Andro-CLI. Neeraj's innovative work in Android remote administration tools has paved the way for many developers in this space, including myself.</p>
+                            
+                            <p>His dedication to open-source development and contribution to the security community is truly commendable. The insights gained from AndroRAT have been invaluable in shaping Andro-CLI into what it is today.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="about-card">
                     <div class="about-text">
                         <h2>The Creator</h2>
