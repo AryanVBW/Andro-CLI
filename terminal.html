@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andro-CLI Terminal</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #0a0a0a;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-container {
+            background: #1a1a1a;
+            color: #f0f0f0;
+            font-family: 'Fira Code', monospace;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-header {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: #2a2a2a;
+            border-bottom: 1px solid #333;
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+            margin-right: 15px;
+        }
+
+        .terminal-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-button.close {
+            background: #ff5f56;
+        }
+
+        .terminal-button.minimize {
+            background: #ffbd2e;
+        }
+
+        .terminal-button.maximize {
+            background: #27c93f;
+        }
+
+        .terminal-title {
+            margin: 0;
+            color: #888;
+            font-size: 0.9em;
+            font-weight: normal;
+        }
+
+        .terminal-body {
+            min-height: 500px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 20px;
+            background: linear-gradient(to bottom, #1a1a1a, #151515);
+            position: relative;
+        }
+
+        .terminal-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+        }
+
+        .command-line {
+            display: flex;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .prompt {
+            color: #ff0080;
+            margin-right: 10px;
+            white-space: nowrap;
+        }
+
+        .command-input {
+            background: transparent;
+            border: none;
+            color: #f0f0f0;
+            font-family: 'Fira Code', monospace;
+            width: 100%;
+            outline: none;
+            caret-color: #ff0080;
+        }
+
+        .command-input::after {
+            content: '|';
+            animation: blink 1s infinite;
+            color: #ff0080;
+        }
+
+        .output {
+            margin-bottom: 15px;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+        }
+
+        .command-history {
+            margin-bottom: 10px;
+        }
+
+        .success {
+            color: #00ff00;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+        }
+
+        .error {
+            color: #ff0000;
+            text-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+        }
+
+        .info {
+            color: #00ffff;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+
+        .warning {
+            color: #ffa500;
+            text-shadow: 0 0 5px rgba(255, 165, 0, 0.3);
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .terminal-footer {
+            padding: 10px 20px;
+            background: #2a2a2a;
+            border-top: 1px solid #333;
+            color: #888;
+            font-size: 0.8em;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .status-item i {
+            color: #ff0080;
+        }
+
+        /* Scrollbar styling */
+        .terminal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .terminal-body::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        /* Command highlight effect */
+        .command-line::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff0080, transparent);
+            opacity: 0.5;
+        }
+
+        /* Terminal glow effect */
+        .terminal-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff0080, #00ffff, #ff0080);
+            z-index: -1;
+            border-radius: 10px;
+            opacity: 0.5;
+            animation: glow 3s linear infinite;
+        }
+
+        @keyframes glow {
+            0% { filter: blur(5px) opacity(0.5); }
+            50% { filter: blur(8px) opacity(0.8); }
+            100% { filter: blur(5px) opacity(0.5); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" alt="Andro-CLI Logo" height="40">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="commands.html">Commands</a>
+                <a href="about.html">About</a>
+                <a href="terminal.html" class="active">Try Andro-CLI</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <div class="terminal-buttons">
+                    <div class="terminal-button close"></div>
+                    <div class="terminal-button minimize"></div>
+                    <div class="terminal-button maximize"></div>
+                </div>
+                <h2 class="terminal-title">andro-cli@terminal ~</h2>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+                <div class="output">
+                    Welcome to Andro-CLI Terminal Simulator!
+                    Type 'help' to see available commands.
+                </div>
+                <div class="command-history" id="commandHistory"></div>
+                <div class="command-line">
+                    <span class="prompt">andro-cli@terminal:~$</span>
+                    <input type="text" class="command-input" id="commandInput" autofocus>
+                </div>
+            </div>
+            <div class="terminal-footer">
+                <div class="status-bar">
+                    <div class="status-item">
+                        <i class="fas fa-code"></i>
+                        <span>Python 3.9.0</span>
+                    </div>
+                    <div class="status-item">
+                        <i class="fas fa-microchip"></i>
+                        <span>CPU: 2.5 GHz</span>
+                    </div>
+                    <div class="status-item">
+                        <i class="fas fa-memory"></i>
+                        <span>RAM: 8GB</span>
+                    </div>
+                </div>
+                <div class="status-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="currentTime"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update time in status bar
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        const commands = {
+            help: () => {
+                return `
+Available Commands:
+------------------
+help                - Show this help message
+build               - Build the Android APK
+shell               - Start interactive shell
+deviceInfo          - Get device information
+camList             - List available cameras
+takepic [cameraID]  - Take picture from camera
+startVideo [cameraID] - Start video recording
+stopVideo           - Stop video recording
+startAudio          - Start audio recording
+stopAudio           - Stop audio recording
+getSMS [inbox|sent] - Get SMS logs
+getCallLogs         - Get call logs
+shell               - Start device shell
+vibrate [times]     - Vibrate device
+getLocation         - Get device location
+getIP               - Get device IP
+getSimDetails       - Get SIM card details
+clear               - Clear terminal
+getClipData         - Get clipboard data
+getMACAddress       - Get MAC address
+exit                - Exit terminal
+
+Type 'help [command]' for more information about a specific command.`;
+            },
+            build: () => {
+                return `
+Build Options:
+-------------
+--build             - Build the Android APK
+--ngrok            - Use ngrok tunnel
+--shell            - Get interactive shell
+
+Flags:
+-p, --port         - Attacker port number (default: 8000)
+-o, --output       - APK filename (default: test.apk)
+-icon, --icon      - Show/hide app icon (default: hidden)
+-i, --ip           - Attacker IP address (required)
+
+Examples:
+python3 androcli.py --build --ngrok -o try.apk
+python3 androcli.py --build -i 192.168.x.x -p 8000 -o try.apk`;
+            },
+            deviceInfo: () => {
+                return `
+Device Information:
+-----------------
+Manufacturer: Samsung
+Model: Galaxy S21
+Android Version: 11.0
+API Level: 30
+IMEI: 123456789012345
+Serial Number: RZ8M123ABC
+Battery Level: 85%
+Storage: 128GB (45GB free)
+RAM: 8GB (3.2GB free)`;
+            },
+            camList: () => {
+                return `
+Available Cameras:
+----------------
+Camera ID: 0 (Back Camera)
+Camera ID: 1 (Front Camera)`;
+            },
+            takepic: () => {
+                return `[+] Taking picture from camera 0...
+[+] Picture saved to /sdcard/DCIM/Camera/IMG_20240315_123456.jpg`;
+            },
+            startVideo: () => {
+                return `[+] Starting video recording from camera 0...
+[+] Recording in progress...`;
+            },
+            stopVideo: () => {
+                return `[+] Stopping video recording...
+[+] Video saved to /sdcard/DCIM/Camera/VID_20240315_123456.mp4`;
+            },
+            startAudio: () => {
+                return `[+] Starting audio recording...
+[+] Recording in progress...`;
+            },
+            stopAudio: () => {
+                return `[+] Stopping audio recording...
+[+] Audio saved to /sdcard/Music/recording_20240315_123456.mp3`;
+            },
+            getSMS: () => {
+                return `[+] Retrieving SMS logs...
+[+] SMS logs saved to /sdcard/Download/sms_logs.txt`;
+            },
+            getCallLogs: () => {
+                return `[+] Retrieving call logs...
+[+] Call logs saved to /sdcard/Download/call_logs.txt`;
+            },
+            getLocation: () => {
+                return `[+] Getting device location...
+Latitude: 12.9716
+Longitude: 77.5946
+Accuracy: 10m
+Provider: GPS
+Time: 2024-03-15 12:34:56`;
+            },
+            getIP: () => {
+                return `[+] Getting device IP...
+IP Address: 192.168.1.100
+MAC Address: 00:11:22:33:44:55
+Network Type: WiFi`;
+            },
+            getSimDetails: () => {
+                return `[+] Getting SIM details...
+SIM 1:
+  IMSI: 123456789012345
+  Phone Number: +919876543210
+  Network: JIO
+  Signal Strength: -75 dBm
+
+SIM 2:
+  IMSI: 987654321098765
+  Phone Number: +919876543211
+  Network: Airtel
+  Signal Strength: -80 dBm`;
+            },
+            getMACAddress: () => {
+                return `[+] Getting MAC address...
+WiFi MAC: 00:11:22:33:44:55
+Bluetooth MAC: 00:11:22:33:44:56`;
+            },
+            getClipData: () => {
+                return `[+] Getting clipboard data...
+Clipboard content: "Hello, World!"`;
+            },
+            vibrate: () => {
+                return `[+] Vibrating device...
+[+] Vibration complete`;
+            },
+            clear: () => {
+                document.getElementById('commandHistory').innerHTML = '';
+                return '';
+            },
+            exit: () => {
+                return 'Goodbye!';
+            }
+        };
+
+        const terminalBody = document.getElementById('terminalBody');
+        const commandInput = document.getElementById('commandInput');
+        const commandHistory = document.getElementById('commandHistory');
+
+        function addOutput(text, className = '') {
+            const output = document.createElement('div');
+            output.className = `output ${className}`;
+            output.textContent = text;
+            commandHistory.appendChild(output);
+        }
+
+        function processCommand(command) {
+            const parts = command.trim().split(' ');
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1);
+
+            if (commands[cmd]) {
+                const result = commands[cmd](args);
+                if (result) {
+                    addOutput(result);
+                }
+            } else {
+                addOutput(`Command not found: ${cmd}`, 'error');
+                addOutput('Type "help" to see available commands', 'info');
+            }
+        }
+
+        commandInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const command = commandInput.value;
+                addOutput(`andro-cli@terminal:~$ ${command}`);
+                processCommand(command);
+                commandInput.value = '';
+                terminalBody.scrollTop = terminalBody.scrollHeight;
+            }
+        });
+
+        // Initial help message
+        // addOutput(commands.help());
+    </script>
+</body>
+</html> 
