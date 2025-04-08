@@ -254,86 +254,284 @@
 
         .phone-mockup {
             width: 300px;
-            height: 600px;
+            height: 650px;
             background: #1a1a1a;
             border-radius: 40px;
-            border: 10px solid #333;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
+            border: 8px solid #2a2a2a;
+        }
+
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 35px;
+            background: #1a1a1a;
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            z-index: 1000;
         }
 
         .phone-screen {
             width: 100%;
             height: 100%;
-            background: #000;
+            background: url('phone/wallpaper.jpg') center/cover;
             position: relative;
             overflow: hidden;
+            transition: background-image 0.3s ease;
+        }
+
+        .phone-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, 
+                rgba(0, 0, 0, 0.3) 0%,
+                rgba(0, 0, 0, 0.1) 20%,
+                rgba(0, 0, 0, 0.1) 80%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            pointer-events: none;
         }
 
         .phone-status-bar {
-            height: 30px;
-            background: #000;
+            height: 35px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
             color: white;
-            font-size: 12px;
+            font-size: 14px;
+            z-index: 100;
+            position: relative;
         }
 
-        .phone-content {
-            height: calc(100% - 30px);
-            padding: 20px;
-            color: white;
-            font-family: 'SF Mono', 'Consolas', monospace;
-            font-size: 12px;
+        .notification-bar {
+            position: absolute;
+            top: 35px;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            z-index: 99;
+            max-height: 300px;
             overflow-y: auto;
         }
 
-        .signal-animation {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: rgba(0, 255, 0, 0.1);
-            animation: pulse 1.5s infinite;
+        .notification-bar.active {
+            transform: translateY(0);
         }
 
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.2; }
-            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+        .notification-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .notification-text {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .notification-time {
+            font-size: 10px;
+            color: #666;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .pull-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .pull-indicator.active {
+            opacity: 1;
+        }
+
+        .pull-indicator i {
+            margin-right: 8px;
+        }
+
+        .status-bar-left, .status-bar-right {
+            display: flex;
+            gap: 8px;
+        }
+
+        .status-icon {
+            font-size: 16px;
+        }
+
+        .phone-content {
+            padding: 20px;
+            height: calc(100% - 35px);
+            overflow-y: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            padding: 10px;
+            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            margin-top: 10px;
         }
 
         .app-icon {
-            width: 50px;
-            height: 50px;
-            background: #4CAF50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            padding: 5px;
+            border-radius: 12px;
+        }
+
+        .app-icon:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .app-icon img {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .app-name {
+            color: white;
+            font-size: 12px;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            font-weight: 500;
+        }
+
+        .phone-home-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            border: 2px solid #3a3a3a;
+            border-radius: 50%;
+        }
+
+        .phone-volume-buttons {
+            position: absolute;
+            left: -2px;
+            top: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .phone-volume-button {
+            width: 3px;
+            height: 30px;
+            background: #3a3a3a;
+            border-radius: 2px;
+        }
+
+        .phone-power-button {
+            position: absolute;
+            right: -2px;
+            top: 120px;
+            width: 3px;
+            height: 30px;
+            background: #3a3a3a;
+            border-radius: 2px;
+        }
+
+        .phone-camera {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            background: #2a2a2a;
+            border-radius: 50%;
+            border: 2px solid #3a3a3a;
+        }
+
+        .phone-speaker {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: 6px;
+            background: #2a2a2a;
+            border-radius: 3px;
+        }
+
+        .terminal-output {
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff00;
+            font-family: monospace;
+            padding: 15px;
             border-radius: 10px;
-            margin: 10px;
-            display: inline-block;
-            animation: install 2s forwards;
-        }
-
-        @keyframes install {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.2); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .loading-dots {
-            display: inline-block;
-            animation: loading 1.5s infinite;
-        }
-
-        @keyframes loading {
-            0%, 100% { content: '.'; }
-            33% { content: '..'; }
-            66% { content: '...'; }
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .popup-overlay {
@@ -385,9 +583,87 @@
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
         }
+
+        /* Add boot screen styles */
+        .boot-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeOut 1s ease 3s forwards;
+        }
+
+        .android-logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .boot-text {
+            color: #3DDC84;
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            margin-top: 20px;
+            animation: blink 1s infinite;
+        }
+
+        .boot-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(61, 220, 132, 0.2);
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .boot-progress-bar {
+            width: 100%;
+            height: 100%;
+            background: #3DDC84;
+            animation: progress 3s linear forwards;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes progress {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; visibility: hidden; }
+        }
     </style>
 </head>
 <body>
+    <!-- Add boot screen HTML -->
+    <div class="boot-screen">
+        <img src="phone/android.svg" alt="Android Logo" class="android-logo">
+        <div class="boot-text">Starting Android...</div>
+        <div class="boot-progress">
+            <div class="boot-progress-bar"></div>
+        </div>
+    </div>
+
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo">
@@ -449,19 +725,114 @@
             </div>
         </div>
         <div class="phone-mockup">
+            <div class="phone-notch"></div>
             <div class="phone-screen">
                 <div class="phone-status-bar">
-                    <span>9:41</span>
-                    <span>📶 100%</span>
+                    <div class="status-bar-left">
+                        <div class="status-icon">📶</div>
+                        <div class="status-icon">📡</div>
+                        <div class="status-icon">🔋</div>
+                    </div>
+                    <div class="status-bar-right">
+                        <div class="status-icon">🔔</div>
+                        <div class="status-icon">🔊</div>
+                    </div>
+                    <div class="pull-indicator">
+                        <i class="fas fa-chevron-down"></i>
+                        Pull down for notifications
+                    </div>
                 </div>
-                <div class="phone-content" id="phoneContent">
-                    <!-- Content will be dynamically updated -->
+                <div class="notification-bar">
+                    <div class="notification-item">
+                        <div class="notification-icon" style="background: #4CAF50;">
+                            <i class="fas fa-message"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">New Message</div>
+                            <div class="notification-text">Hey, how are you doing?</div>
+                            <div class="notification-time">2 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon" style="background: #2196F3;">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">Photo Captured</div>
+                            <div class="notification-text">New photo saved to gallery</div>
+                            <div class="notification-time">5 minutes ago</div>
+                        </div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon" style="background: #FF9800;">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">System Update</div>
+                            <div class="notification-text">New security patch available</div>
+                            <div class="notification-time">1 hour ago</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="phone-content">
+                    <div class="app-grid">
+                        <div class="app-icon">
+                            <img src="phone/settings-48.png" alt="Settings">
+                            <span class="app-name">Settings</span>
+                        </div>
+                        <div class="app-icon">
+                            <img src="phone/sms-48.png" alt="Messages">
+                            <span class="app-name">Messages</span>
+                        </div>
+                        <div class="app-icon">
+                            <img src="phone/camera-48.png" alt="Camera">
+                            <span class="app-name">Camera</span>
+                        </div>
+                        <div class="app-icon">
+                            <img src="phone/gallery-48.png" alt="Gallery">
+                            <span class="app-name">Gallery</span>
+                        </div>
+                        <div class="app-icon">
+                            <img src="phone/clock-48.png" alt="Clock">
+                            <span class="app-name">Clock</span>
+                        </div>
+                        <div class="app-icon">
+                            <img src="phone/map-48.png" alt="Maps">
+                            <span class="app-name">Maps</span>
+                        </div>
+                        <div class="app-icon">
+                            <img src="phone/phone-48.png" alt="Phone">
+                            <span class="app-name">Phone</span>
+                        </div>
+                        <div class="app-icon">
+                            <img src="phone/android-50.png" alt="Andro-CLI">
+                            <span class="app-name">Andro-CLI</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="phone-home-button"></div>
+            <div class="phone-volume-buttons">
+                <div class="phone-volume-button"></div>
+                <div class="phone-volume-button"></div>
+            </div>
+            <div class="phone-power-button"></div>
+            <div class="phone-camera"></div>
+            <div class="phone-speaker"></div>
         </div>
     </div>
 
     <script>
+        // Add boot screen functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const bootScreen = document.querySelector('.boot-screen');
+            
+            // Hide boot screen after animation
+            setTimeout(() => {
+                bootScreen.style.display = 'none';
+            }, 4000);
+        });
+
         // Update time in status bar
         function updateTime() {
             const now = new Date();
@@ -608,7 +979,11 @@ Bluetooth MAC: 00:11:22:33:44:56`;
 Clipboard content: "Hello, World!"`;
             },
             vibrate: () => {
-                return `[+] Vibrating device...
+                return `[+] Vibrating device ${args[0] || '1'} times...
+[+] Vibration pattern: Short (100ms)
+[+] Intensity: Medium
+[+] Starting vibration sequence...
+
 [+] Vibration complete`;
             },
             clear: () => {
@@ -1232,122 +1607,179 @@ Type "help" to see available commands`;
 
         function updatePhoneContent(command, args) {
             const phoneContent = document.getElementById('phoneContent');
-            phoneContent.innerHTML = '';
+            const normalizedCmd = command.toLowerCase();
 
-            // Only show shell commands in phone mockup
-            if (currentMode === 'shell') {
-                switch(command) {
-                    case 'ls':
-                        showSignalAnimation(() => {
-                            phoneContent.innerHTML = `
-                                <div style="color: #4CAF50;">[+] Listing directory contents...</div>
-                                <div style="margin-top: 20px;">
+            // Show signal animation first
+            const signal = document.createElement('div');
+            signal.className = 'signal-animation';
+            signal.innerHTML = `
+                <div class="phone-signal"></div>
+                <div class="signal"></div>
+                <div class="terminal-signal"></div>
+            `;
+            
+            // Switch to terminal mode with animation
+            phoneContent.style.opacity = '0';
+            phoneContent.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                phoneContent.classList.remove('home-mode');
+                phoneContent.classList.add('terminal-mode');
+                phoneContent.style.opacity = '1';
+                phoneContent.style.transform = 'scale(1)';
+            }, 300);
+            
+            // Clear previous content
+            const terminalOutput = phoneContent.querySelector('.terminal-output');
+            terminalOutput.innerHTML = '';
+            terminalOutput.appendChild(signal);
+
+            // Process command after animation
+            setTimeout(() => {
+                signal.remove();
+                
+                // Only show shell commands in phone mockup
+                if (currentMode === 'shell') {
+                    switch(normalizedCmd) {
+                        case 'deviceinfo':
+                        case 'device-info':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Getting device information...</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
+                                    <div>📱 Samsung Galaxy S21 Ultra</div>
+                                    <div>🔋 Battery: 85%</div>
+                                    <div>💾 Storage: 256GB</div>
+                                    <div>📶 WiFi: Connected</div>
+                                </div>
+                            `;
+                            break;
+                        case 'camlist':
+                        case 'cam-list':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Available cameras:</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
+                                    <div>📸 Back Main (108MP)</div>
+                                    <div>📸 Front (40MP)</div>
+                                </div>
+                            `;
+                            break;
+                        case 'takepic':
+                        case 'take-pic':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Taking picture...</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
+                                    <div>📸 Camera initialized</div>
+                                    <div>🎯 Focusing...</div>
+                                    <div>✨ Capturing...</div>
+                                    <div>💾 Saving...</div>
+                                </div>
+                            `;
+                            break;
+                        case 'getlocation':
+                        case 'get-location':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Getting location...</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
+                                    <div>📍 Acquiring GPS...</div>
+                                    <div>🎯 Processing...</div>
+                                    <div>📡 Sending data...</div>
+                                </div>
+                            `;
+                            break;
+                        case 'getclipdata':
+                        case 'get-clip-data':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Getting clipboard...</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
+                                    <div>📋 Reading clipboard...</div>
+                                    <div>💾 Processing data...</div>
+                                    <div>📡 Sending data...</div>
+                                </div>
+                            `;
+                            break;
+                        case 'getcalllogs':
+                        case 'get-call-logs':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Getting call logs...</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
+                                    <div>📞 Reading logs...</div>
+                                    <div>💾 Processing data...</div>
+                                    <div>📡 Sending data...</div>
+                                </div>
+                            `;
+                            break;
+                        case 'ls':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Listing directory...</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
                                     <div>📁 bin</div>
                                     <div>📁 dev</div>
                                     <div>📁 etc</div>
                                     <div>📁 proc</div>
                                     <div>📁 sdcard</div>
-                                    <div>📁 system</div>
-                                    <div>📁 tmp</div>
-                                    <div>📁 usr</div>
                                 </div>
                             `;
-                        });
-                        break;
-                    case 'pwd':
-                        showSignalAnimation(() => {
-                            phoneContent.innerHTML = `
-                                <div style="color: #4CAF50;">[+] Current directory:</div>
-                                <div style="margin-top: 20px;">
+                            break;
+                        case 'pwd':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Current directory:</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
                                     <div>📁 /</div>
                                 </div>
                             `;
-                        });
-                        break;
-                    case 'whoami':
-                        showSignalAnimation(() => {
-                            phoneContent.innerHTML = `
-                                <div style="color: #4CAF50;">[+] Current user:</div>
-                                <div style="margin-top: 20px;">
+                            break;
+                        case 'whoami':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Current user:</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
                                     <div>👤 root</div>
                                 </div>
                             `;
-                        });
-                        break;
-                    case 'ps':
-                        showSignalAnimation(() => {
-                            phoneContent.innerHTML = `
-                                <div style="color: #4CAF50;">[+] Running processes:</div>
-                                <div style="margin-top: 20px;">
+                            break;
+                        case 'ps':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Running processes:</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
                                     <div>🔄 init (PID: 1)</div>
                                     <div>🔄 kthreadd (PID: 2)</div>
                                     <div>🔄 ksoftirqd/0 (PID: 3)</div>
                                 </div>
                             `;
-                        });
-                        break;
-                    case 'netstat':
-                        showSignalAnimation(() => {
-                            phoneContent.innerHTML = `
-                                <div style="color: #4CAF50;">[+] Network connections:</div>
-                                <div style="margin-top: 20px;">
+                            break;
+                        case 'netstat':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Network connections:</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
                                     <div>🌐 192.168.1.100:8000</div>
                                     <div>📡 LISTEN</div>
                                 </div>
                             `;
-                        });
-                        break;
-                    case 'ifconfig':
-                        showSignalAnimation(() => {
-                            phoneContent.innerHTML = `
-                                <div style="color: #4CAF50;">[+] Network interfaces:</div>
-                                <div style="margin-top: 20px;">
+                            break;
+                        case 'ifconfig':
+                            terminalOutput.innerHTML = `
+                                <div style="color: #4CAF50; animation: fadeIn 0.5s ease;">[+] Network interfaces:</div>
+                                <div style="margin-top: 10px; animation: slideUp 0.5s ease 0.2s both;">
                                     <div>📶 wlan0</div>
                                     <div>📡 192.168.1.100</div>
                                     <div>🔒 00:11:22:33:44:55</div>
                                 </div>
                             `;
-                        });
-                        break;
-                    default:
-                        phoneContent.innerHTML = `
-                            <div style="color: #888; text-align: center; margin-top: 50%;">
-                                Waiting for command...
-                            </div>
-                        `;
+                            break;
+                        default:
+                            terminalOutput.innerHTML = `
+                                <div style="color: #888; text-align: center; margin-top: 50%; animation: fadeIn 0.5s ease;">
+                                    Waiting for command...
+                                </div>
+                            `;
+                    }
+                } else {
+                    terminalOutput.innerHTML = `
+                        <div style="color: #888; text-align: center; margin-top: 50%; animation: fadeIn 0.5s ease;">
+                            Waiting for command...
+                        </div>
+                    `;
                 }
-            } else {
-                phoneContent.innerHTML = `
-                    <div style="color: #888; text-align: center; margin-top: 50%;">
-                        Waiting for command...
-                    </div>
-                `;
-            }
+            }, 2000);
         }
-
-        function showSignalAnimation(callback) {
-            const phoneContent = document.getElementById('phoneContent');
-            const signal = document.createElement('div');
-            signal.className = 'signal-animation';
-            phoneContent.innerHTML = '';
-            phoneContent.appendChild(signal);
-            
-            setTimeout(() => {
-                signal.remove();
-                callback();
-            }, 1500);
-        }
-
-        // Modify the processCommand function to update phone content
-        const originalProcessCommand = processCommand;
-        processCommand = function(command) {
-            const parts = command.trim().split(' ');
-            const cmd = parts[0].toLowerCase();
-            const args = parts.slice(1);
-            
-            updatePhoneContent(cmd, args);
-            return originalProcessCommand(command);
-        };
 
         function showBuildCompletePopup(ip, port) {
             const popup = document.createElement('div');
@@ -1367,6 +1799,69 @@ Type "help" to see available commands`;
             `;
             document.body.appendChild(popup);
         }
+
+        // Add new animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+
+            @keyframes slideUp {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .phone-content {
+                transition: opacity 0.3s ease, transform 0.3s ease;
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Add notification bar functionality
+        const statusBar = document.querySelector('.phone-status-bar');
+        const notificationBar = document.querySelector('.notification-bar');
+        const pullIndicator = document.querySelector('.pull-indicator');
+        let startY = 0;
+        let currentY = 0;
+        let isDragging = false;
+
+        statusBar.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].clientY;
+            isDragging = true;
+            pullIndicator.classList.add('active');
+        });
+
+        statusBar.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentY = e.touches[0].clientY;
+            const diff = currentY - startY;
+            
+            if (diff > 0) {
+                notificationBar.style.transform = `translateY(${diff}px)`;
+            }
+        });
+
+        statusBar.addEventListener('touchend', () => {
+            isDragging = false;
+            pullIndicator.classList.remove('active');
+            
+            const diff = currentY - startY;
+            if (diff > 100) {
+                notificationBar.classList.add('active');
+            } else {
+                notificationBar.classList.remove('active');
+            }
+            notificationBar.style.transform = '';
+        });
+
+        // Add click handler to close notifications
+        document.addEventListener('click', (e) => {
+            if (!notificationBar.contains(e.target) && !statusBar.contains(e.target)) {
+                notificationBar.classList.remove('active');
+            }
+        });
     </script>
 </body>
 </html>
