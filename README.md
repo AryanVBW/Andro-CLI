@@ -27,7 +27,7 @@ Andro-CLI is a tool designed to give the control of the android system remotely 
 ## Prerequisites 
 Andro-CLI requires 
  - Python3<img src="https://raw.githubusercontent.com/AryanVBW/Andro-CLI/main/python-logo-only.png" height="20">
- - JAVA<img src="https://raw.githubusercontent.com/AryanVBW/ANDRO/main/java.png" height="30"> (or Android Studio)
+ - JAVA<img src="https://raw.githubusercontent.com/AryanVBW/Andro-CLI/main/Screenshots/java.png" height="30"> (or Android Studio)
 - zipalign
 
 ## Installation
