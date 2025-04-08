@@ -249,6 +249,82 @@ body {
     transform: scale(1.1);
 }
 
+.hero .cta-buttons {
+    margin-top: 2rem;
+}
+
+/* Welcome Section */
+.welcome {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border-bottom: 1px solid #333;
+}
+
+.welcome-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.welcome h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #00ff00;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ccc;
+    margin-bottom: 2rem;
+}
+
+.welcome-features {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.welcome-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.welcome-feature i {
+    font-size: 2rem;
+    color: #00ff00;
+    margin-bottom: 0.5rem;
+}
+
+.welcome-feature span {
+    color: #fff;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .welcome {
+        padding: 3rem 0;
+    }
+
+    .welcome h2 {
+        font-size: 2rem;
+    }
+
+    .welcome-text {
+        font-size: 1rem;
+        padding: 0 1rem;
+    }
+
+    .welcome-features {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
 /* Features Section */
 .features {
     padding: 6rem 0;
