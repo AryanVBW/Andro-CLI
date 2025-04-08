@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commands - Andro-CLI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .command-section {
+            padding: 6rem 0;
+            background: var(--bg-dark);
+            min-height: calc(100vh - 60px - 300px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gradient-primary);
+        }
+
+        .command-category {
+            margin-bottom: 3rem;
+            background: var(--bg-darker);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .command-category:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-color);
+        }
+
+        .command-category:hover::before {
+            opacity: 0.1;
+        }
+
+        .command-category h2 {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+            font-family: 'Fira Code', monospace;
+            text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .command-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .command-item {
+            background: var(--bg-darkest);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-color);
+        }
+
+        .command-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(var(--accent-rgb), 0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .command-item:hover::before {
+            transform: translateX(100%);
+        }
+
+        .command-header {
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .command-name {
+            color: var(--accent-color);
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 0.5rem;
+            background: rgba(var(--accent-rgb), 0.1);
+            border-radius: 4px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .command-item:hover .command-name {
+            background: rgba(var(--accent-rgb), 0.2);
+            transform: translateX(5px);
+        }
+
+        .command-description {
+            color: var(--text-secondary);
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            position: relative;
+            z-index: 1;
+        }
+
+        .command-usage {
+            background: var(--bg-darkest);
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            color: var(--text-primary);
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow-x: auto;
+            transition: all 0.3s ease;
+        }
+
+        .command-usage:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.1);
+        }
+
+        .command-usage::before {
+            content: '>';
+            position: absolute;
+            left: 10px;
+            color: var(--accent-color);
+            animation: blink 1s infinite;
+        }
+
+        .command-options {
+            margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .command-options h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .option-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .option-item {
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .option-item:hover {
+            color: var(--accent-color);
+            transform: translateX(5px);
+        }
+
+        .option-item::before {
+            content: '→';
+            color: var(--accent-color);
+            margin-right: 0.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .option-item:hover::before {
+            transform: translateX(5px);
+        }
+
+        .note {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(var(--accent-rgb), 0.1);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-style: italic;
+            border-left: 3px solid var(--accent-color);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .note:hover {
+            background: rgba(var(--accent-rgb), 0.15);
+            transform: translateX(5px);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .command-section {
+                padding: 2rem 1rem;
+            }
+
+            .command-category {
+                padding: 1.5rem;
+            }
+
+            .command-item {
+                padding: 1rem;
+            }
+
+            .command-name {
+                font-size: 1rem;
+            }
+
+            .command-usage {
+                font-size: 0.9rem;
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" alt="Andro-CLI Logo" height="40">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="commands.html" class="active">Commands</a>
+                <a href="about.html">About</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="command-section">
+        <div class="container">
+            <h1>Available Commands<span class="terminal-cursor"></span></h1>
+            
+            <div class="command-category">
+                <h2>Build Mode</h2>
+                <div class="command-list">
+                    <div class="command-item">
+                        <div class="command-header">
+                            <span class="command-name">--build --ngrok</span>
+                        </div>
+                        <p class="command-description">Build APK using ngrok tunnel (over the internet)</p>
+                        <div class="command-usage">python3 androcli.py --build --ngrok [flags]</div>
+                        <div class="command-options">
+                            <h4>Flags:</h4>
+                            <ul class="option-list">
+                                <li class="option-item">-p, --port: Attacker port number (optional, default: 8000)</li>
+                                <li class="option-item">-o, --output: Name for the apk file (optional, default: "test.apk")</li>
+                                <li class="option-item">-icon, --icon: Visible icon after installing apk (default: hidden)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-header">
+                            <span class="command-name">--build</span>
+                        </div>
+                        <p class="command-description">Build APK with custom IP and port</p>
+                        <div class="command-usage">python3 androcli.py --build [flags]</div>
+                        <div class="command-options">
+                            <h4>Flags:</h4>
+                            <ul class="option-list">
+                                <li class="option-item">-i, --ip: Attacker IP address (required)</li>
+                                <li class="option-item">-p, --port: Attacker port number (required)</li>
+                                <li class="option-item">-o, --output: Name for the apk file (optional)</li>
+                                <li class="option-item">-icon, --icon: Visible icon after installing apk (default: hidden)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="command-category">
+                <h2>Shell Mode</h2>
+                <div class="command-list">
+                    <div class="command-item">
+                        <div class="command-header">
+                            <span class="command-name">--shell</span>
+                        </div>
+                        <p class="command-description">Get an interactive shell of the device</p>
+                        <div class="command-usage">python3 androcli.py --shell [flags]</div>
+                        <div class="command-options">
+                            <h4>Flags:</h4>
+                            <ul class="option-list">
+                                <li class="option-item">-i, --ip: Listener IP address</li>
+                                <li class="option-item">-p, --port: Listener port number</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="command-category">
+                <h2>Interpreter Commands</h2>
+                <div class="command-list">
+                    <div class="command-item">
+                        <div class="command-header">
+                            <span class="command-name">Device Information</span>
+                        </div>
+                        <div class="command-options">
+                            <ul class="option-list">
+                                <li class="option-item">deviceInfo: Returns basic info of the device</li>
+                                <li class="option-item">getLocation: Return the current location of the device</li>
+                                <li class="option-item">getIP: Returns the IP of the device</li>
+                                <li class="option-item">getSimDetails: Returns the details of all SIM cards</li>
+                                <li class="option-item">getMACAddress: Returns the MAC address of the device</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-header">
+                            <span class="command-name">Media Control</span>
+                        </div>
+                        <div class="command-options">
+                            <ul class="option-list">
+                                <li class="option-item">camList: Returns camera ID</li>
+                                <li class="option-item">takepic [cameraID]: Takes picture from camera</li>
+                                <li class="option-item">startVideo [cameraID]: Starts recording the video</li>
+                                <li class="option-item">stopVideo: Stop recording the video</li>
+                                <li class="option-item">startAudio: Starts recording the audio</li>
+                                <li class="option-item">stopAudio: Stop recording the audio</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-header">
+                            <span class="command-name">Data Access</span>
+                        </div>
+                        <div class="command-options">
+                            <ul class="option-list">
+                                <li class="option-item">getSMS [inbox|sent]: Returns inbox or sent SMS</li>
+                                <li class="option-item">getCallLogs: Returns call logs</li>
+                                <li class="option-item">getClipData: Return current clipboard text</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-header">
+                            <span class="command-name">System Control</span>
+                        </div>
+                        <div class="command-options">
+                            <ul class="option-list">
+                                <li class="option-item">shell: Starts a sh shell of the device</li>
+                                <li class="option-item">vibrate [number_of_times]: Vibrate the device</li>
+                                <li class="option-item">clear: Clears the screen</li>
+                                <li class="option-item">exit: Exit the interpreter</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="command-item">
+                        <div class="command-header">
+                            <span class="command-name">Shell Commands</span>
+                        </div>
+                        <div class="command-options">
+                            <ul class="option-list">
+                                <li class="option-item">get [full_file_path]: Downloads file to local machine (up to 15mb)</li>
+                                <li class="option-item">put [filename]: Uploads file to the android device</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="command-category">
+                <h2>Control Panel</h2>
+                <div class="command-list">
+                    <div class="command-item">
+                        <div class="command-header">
+                            <span class="command-name">App Control</span>
+                        </div>
+                        <p class="command-description">Dial *#*#1337#*#* to access the control panel</p>
+                        <div class="command-options">
+                            <h4>Available Options:</h4>
+                            <ul class="option-list">
+                                <li class="option-item">Restart Activity</li>
+                                <li class="option-item">Uninstall</li>
+                            </ul>
+                            <p class="note">Note: Some devices require enabling "display pop-up windows running in background" from settings.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Andro-CLI<span class="terminal-cursor"></span></h3>
+                    <p>A python based remote android management suite, powered by Python</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="commands.html">Commands</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="https://github.com/AryanVBW/Andro-CLI"><i class="fab fa-github"></i></a>
+                        <a href="mailto:whiteDevilVBW@proton.me"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ By <a href="mailto:whiteDevilVBW@proton.me">Aryan</a> | v1.1.2</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html> 

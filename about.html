@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Andro-CLI</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .about-section {
+            padding: 5rem 0;
+            background-color: var(--bg-dark);
+            min-height: calc(100vh - 60px - 300px);
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .about-logo {
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 0 20px rgba(255, 0, 128, 0.3));
+            transition: filter 0.3s ease;
+        }
+
+        .about-logo:hover {
+            filter: drop-shadow(0 0 25px rgba(255, 0, 128, 0.5));
+        }
+
+        .about-section h1 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(255, 0, 128, 0.5);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .about-card {
+            background: var(--bg-darker);
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 128, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover {
+            border-color: rgba(255, 0, 128, 0.3);
+            box-shadow: 0 4px 25px rgba(255, 0, 128, 0.1);
+        }
+
+        .about-section h2 {
+            color: var(--accent-color);
+            margin: 2rem 0 1rem;
+            font-family: 'Fira Code', monospace;
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.3);
+        }
+
+        .about-section p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .about-text a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .about-text a:hover {
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+        }
+
+        .about-text a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .about-text a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: var(--bg-darkest);
+            color: var(--accent-color);
+            border: 1px solid rgba(255, 0, 128, 0.3);
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .contact-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-darkest);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 0, 128, 0.2);
+        }
+
+        .contact-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .contact-btn:hover i {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .about-card {
+                padding: 2rem;
+                margin: 0 1rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+            }
+
+            .contact-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Navigation Bar Styles */
+        .navbar {
+            background: var(--bg-darker);
+            border-bottom: 1px solid rgba(255, 0, 128, 0.2);
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+        }
+
+        .nav-links a.active {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--bg-darker);
+            border-top: 1px solid rgba(255, 0, 128, 0.2);
+        }
+
+        .footer-section h3 {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.3);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+        }
+
+        .footer-section ul li a {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--accent-color);
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 0, 128, 0.2);
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+        }
+
+        .footer-bottom a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            text-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+        }
+
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            color: var(--text-secondary);
+        }
+
+        .mobile-menu:hover {
+            color: var(--accent-color);
+        }
+
+        /* Terminal Cursor Animation */
+        .terminal-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--accent-color);
+            margin-left: 4px;
+            animation: blink 1s infinite;
+            box-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" alt="Andro-CLI Logo" height="40">
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="commands.html">Commands</a>
+                <a href="about.html" class="active">About</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-header">
+                    <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" alt="Andro-CLI Logo" height="120" class="about-logo">
+                    <h1>About Andro-CLI<span class="terminal-cursor"></span></h1>
+                </div>
+                
+                <div class="about-card">
+                    <div class="about-text">
+                        <h2>The Creator</h2>
+                        <p>Andro-CLI is the brainchild of <a href="https://github.com/AryanVBW" target="_blank">AryanVBW</a>, a passionate developer and security enthusiast. As the sole owner and writer of the project, AryanVBW has dedicated countless hours to creating this powerful Android remote management suite.</p>
+                        
+                        <h2>The Vision</h2>
+                        <p>Andro-CLI was born from a vision to create a comprehensive, Python-based solution for Android device management. The project combines powerful features with an intuitive command-line interface, making it accessible to both security professionals and developers.</p>
+                        
+                        <h2>Development Journey</h2>
+                        <p>Starting as a personal project, Andro-CLI has evolved into a robust tool that supports a wide range of Android devices. AryanVBW's commitment to continuous improvement has led to regular updates and feature enhancements, ensuring the tool remains relevant and powerful.</p>
+                        
+                        <h2>Contact</h2>
+                        <p>For inquiries, suggestions, or collaboration opportunities, you can reach out to AryanVBW at:</p>
+                        <div class="contact-links">
+                            <a href="mailto:vivek.araynvbw@gmail.com" class="contact-btn">
+                                <i class="fas fa-envelope"></i> Email
+                            </a>
+                            <a href="https://github.com/AryanVBW" target="_blank" class="contact-btn">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Andro-CLI<span class="terminal-cursor"></span></h3>
+                    <p>A python based remote android management suite, powered by Python</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="commands.html">Commands</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="https://github.com/AryanVBW/Andro-CLI"><i class="fab fa-github"></i></a>
+                        <a href="mailto:vivek.araynvbw@gmail.com"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ By <a href="mailto:vivek.araynvbw@gmail.com">AryanVBW</a> | v1.1.2</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html> 

