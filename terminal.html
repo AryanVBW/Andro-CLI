@@ -20,21 +20,22 @@
 
         .container {
             width: 100%;
+            max-width: 1400px;
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             gap: 40px;
+            position: relative;
         }
 
         .terminal-container {
             background-color: #1e1e1e;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 50%;
-            max-width: 800px;
+            width: 45%;
+            max-width: 600px;
             height: 600px;
-            margin: 20px auto;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -137,10 +138,26 @@
         }
 
         /* Responsive adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 1200px) {
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
             .terminal-container {
-                width: 200%;
-                height: 500px;
+                width: 90%;
+                max-width: 800px;
+            }
+            
+            .phone-mockup {
+                margin: 20px auto;
+            }
+            
+            .terminal-logo {
+                position: relative;
+                top: 0;
+                left: 0;
+                transform: none;
                 margin: 20px auto;
             }
         }
@@ -205,12 +222,27 @@
 
         /* Terminal logo styling */
         .terminal-logo {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-10px); }
+            100% { transform: translate(-50%, -50%) translateY(0px); }
         }
 
         .terminal-logo img {
+            height: 80px;
             filter: drop-shadow(0 0 10px rgba(255, 0, 128, 0.3));
             transition: transform 0.3s ease;
         }
@@ -261,6 +293,7 @@
             overflow: hidden;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
             border: 8px solid #2a2a2a;
+            margin-left: auto;
         }
 
         .phone-notch {
@@ -652,6 +685,458 @@
             from { opacity: 1; }
             to { opacity: 0; visibility: hidden; }
         }
+
+        /* Add footer styles */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            z-index: 1000;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer span {
+            color: #ff4d4d;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .boot-copyright {
+            position: absolute;
+            bottom: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            text-align: center;
+            animation: fadeIn 1s ease 2s forwards;
+            opacity: 0;
+        }
+
+        .boot-copyright span {
+            color: #ff4d4d;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        /* Add signal animation styles */
+        .signal-flow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .signal-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #4CAF50;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #4CAF50;
+            opacity: 0;
+        }
+
+        .signal-dot.terminal-to-logo {
+            animation: moveToLogo 2s linear;
+            left: 45%;
+            top: 80%;
+        }
+
+        .signal-dot.logo-to-phone {
+            animation: moveToPhone 2s linear;
+            left: 50%;
+            top: 50%;
+        }
+
+        .signal-dot.phone-to-logo {
+            animation: moveToLogoReverse 2s linear;
+            left: 75%;
+            top: 20%;
+        }
+
+        .signal-dot.logo-to-terminal {
+            animation: moveToTerminal 2s linear;
+            left: 50%;
+            top: 50%;
+        }
+
+        .logo-glow {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #4CAF50 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glowPulse 2s linear;
+            opacity: 0;
+        }
+
+        @keyframes moveToLogo {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-30%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes moveToPhone {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-30%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes moveToLogoReverse {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(30%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes moveToTerminal {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(30%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes glowPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Signal animation styles */
+        .signal-beam {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .light-beam {
+            position: absolute;
+            width: 4px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, #4CAF50, transparent);
+            box-shadow: 0 0 20px #4CAF50;
+            opacity: 0;
+        }
+
+        .light-beam.terminal-to-phone {
+            animation: beamToPhone 2s linear;
+            left: 45%;
+            top: 80%;
+            transform: rotate(-45deg);
+        }
+
+        .light-beam.phone-to-terminal {
+            animation: beamToTerminal 2s linear;
+            left: 75%;
+            top: 20%;
+            transform: rotate(45deg);
+        }
+
+        @keyframes beamToPhone {
+            0% {
+                transform: rotate(-45deg) translateY(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(-45deg) translateY(-60%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes beamToTerminal {
+            0% {
+                transform: rotate(45deg) translateY(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(45deg) translateY(60%);
+                opacity: 0;
+            }
+        }
+
+        /* Data transmission animation styles */
+        .data-transmission {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .data-beam {
+            position: absolute;
+            width: 6px;
+            height: 200px;
+            background: linear-gradient(to bottom, 
+                rgba(0, 255, 255, 0.1), 
+                rgba(0, 255, 255, 0.8), 
+                rgba(0, 255, 255, 0.1)
+            );
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.8),
+                0 0 40px rgba(0, 255, 255, 0.4);
+            border-radius: 3px;
+            opacity: 0;
+            transform-origin: center;
+        }
+
+        .data-beam.phone-to-terminal {
+            animation: beamPhoneToTerminal 2s linear;
+            left: 75%;
+            top: 20%;
+            transform: rotate(45deg);
+        }
+
+        .data-beam.terminal-to-phone {
+            animation: beamTerminalToPhone 2s linear;
+            left: 45%;
+            top: 80%;
+            transform: rotate(-45deg);
+        }
+
+        .data-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .data-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 255, 255, 0.8);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+            opacity: 0;
+        }
+
+        .binary-stream {
+            position: absolute;
+            color: rgba(0, 255, 255, 0.8);
+            font-family: monospace;
+            font-size: 10px;
+            white-space: nowrap;
+            opacity: 0;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.8);
+        }
+
+        .terminal-glow {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            left: 45%;
+            top: 80%;
+            transform: translate(-50%, -50%);
+        }
+
+        .phone-glow {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.8) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            left: 75%;
+            top: 20%;
+            transform: translate(-50%, -50%);
+        }
+
+        @keyframes beamPhoneToTerminal {
+            0% {
+                transform: rotate(45deg) translateY(0) scaleY(0.1);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(45deg) translateY(60%) scaleY(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes beamTerminalToPhone {
+            0% {
+                transform: rotate(-45deg) translateY(0) scaleY(0.1);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(-45deg) translateY(-60%) scaleY(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes particleFlow {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        @keyframes binaryFlow {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(var(--ty));
+                opacity: 0;
+            }
+        }
+
+        @keyframes glowPulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.5);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        .terminal-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 255, 0.2);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        @keyframes terminalFlash {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -661,6 +1146,9 @@
         <div class="boot-text">Starting Android...</div>
         <div class="boot-progress">
             <div class="boot-progress-bar"></div>
+        </div>
+        <div class="boot-copyright">
+            Made with <span>❤️</span> By AryanVBW | v1.1.2
         </div>
     </div>
 
@@ -820,6 +1308,11 @@
             <div class="phone-camera"></div>
             <div class="phone-speaker"></div>
         </div>
+    </div>
+
+    <!-- Add footer before closing body tag -->
+    <div class="footer">
+        Made with <span>❤️</span> By AryanVBW | v1.1.2
     </div>
 
     <script>
@@ -1011,6 +1504,101 @@ Clipboard content: "Hello, World!"`;
         }
 
         function processCommand(command) {
+            // Create data transmission animation
+            const dataTransmission = document.createElement('div');
+            dataTransmission.className = 'data-transmission';
+            
+            // Create data beams
+            const phoneToTerminal = document.createElement('div');
+            phoneToTerminal.className = 'data-beam phone-to-terminal';
+            
+            const terminalToPhone = document.createElement('div');
+            terminalToPhone.className = 'data-beam terminal-to-phone';
+            
+            // Create particle container
+            const particlesContainer = document.createElement('div');
+            particlesContainer.className = 'data-particles';
+            
+            // Create terminal and phone glow effects
+            const terminalGlow = document.createElement('div');
+            terminalGlow.className = 'terminal-glow';
+            terminalGlow.style.animation = 'glowPulse 2s linear';
+            
+            const phoneGlow = document.createElement('div');
+            phoneGlow.className = 'phone-glow';
+            phoneGlow.style.animation = 'glowPulse 2s linear';
+            
+            // Create terminal flash effect
+            const terminalFlash = document.createElement('div');
+            terminalFlash.className = 'terminal-flash';
+            terminalFlash.style.animation = 'terminalFlash 2s linear';
+            
+            // Add all elements to the container
+            dataTransmission.appendChild(phoneToTerminal);
+            dataTransmission.appendChild(terminalToPhone);
+            dataTransmission.appendChild(particlesContainer);
+            dataTransmission.appendChild(terminalGlow);
+            dataTransmission.appendChild(phoneGlow);
+            dataTransmission.appendChild(terminalFlash);
+            
+            // Add the data transmission to the document
+            document.body.appendChild(dataTransmission);
+            
+            // Create particles
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'data-particle';
+                
+                // Random position along the beam path
+                const x = 45 + Math.random() * 30;
+                const y = 20 + Math.random() * 60;
+                
+                // Random movement direction
+                const tx = (Math.random() - 0.5) * 100;
+                const ty = (Math.random() - 0.5) * 100;
+                
+                particle.style.left = `${x}%`;
+                particle.style.top = `${y}%`;
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.animation = `particleFlow 2s linear ${Math.random() * 0.5}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Create binary stream
+            for (let i = 0; i < 20; i++) {
+                const binary = document.createElement('div');
+                binary.className = 'binary-stream';
+                
+                // Generate random binary string
+                let binaryString = '';
+                for (let j = 0; j < 10; j++) {
+                    binaryString += Math.random() > 0.5 ? '1' : '0';
+                }
+                binary.textContent = binaryString;
+                
+                // Random position along the beam path
+                const x = 45 + Math.random() * 30;
+                const y = 20 + Math.random() * 60;
+                
+                // Random vertical movement
+                const ty = (Math.random() - 0.5) * 200;
+                
+                binary.style.left = `${x}%`;
+                binary.style.top = `${y}%`;
+                binary.style.setProperty('--ty', `${ty}px`);
+                binary.style.animation = `binaryFlow 2s linear ${Math.random() * 0.5}s`;
+                
+                particlesContainer.appendChild(binary);
+            }
+            
+            // Remove the data transmission after animation completes
+            setTimeout(() => {
+                dataTransmission.remove();
+            }, 2000);
+
+            // Continue with existing command processing
             const parts = command.trim().split(' ');
             const cmd = parts[0].toLowerCase();
             const args = parts.slice(1);
