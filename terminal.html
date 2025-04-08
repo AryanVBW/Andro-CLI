@@ -14,152 +14,134 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .terminal-container {
-            background: #1a1a1a;
-            color: #f0f0f0;
-            font-family: 'Fira Code', monospace;
+            background-color: #1e1e1e;
             border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            max-width: 800px;
+            height: 600px;
             margin: 20px auto;
-            max-width: 900px;
-            width: 100%;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-            position: relative;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
+            position: relative;
         }
 
         .terminal-header {
+            background-color: #2d2d2d;
+            padding: 10px 15px;
             display: flex;
             align-items: center;
-            padding: 10px 20px;
-            background: #2a2a2a;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #3d3d3d;
         }
 
-        .terminal-buttons {
+        .terminal-controls {
             display: flex;
             gap: 8px;
             margin-right: 15px;
         }
 
-        .terminal-button {
+        .control {
             width: 12px;
             height: 12px;
             border-radius: 50%;
         }
 
-        .terminal-button.close {
-            background: #ff5f56;
-        }
-
-        .terminal-button.minimize {
-            background: #ffbd2e;
-        }
-
-        .terminal-button.maximize {
-            background: #27c93f;
-        }
+        .control.close { background-color: #ff5f56; }
+        .control.minimize { background-color: #ffbd2e; }
+        .control.maximize { background-color: #27c93f; }
 
         .terminal-title {
-            margin: 0;
             color: #888;
-            font-size: 0.9em;
-            font-weight: normal;
+            font-size: 14px;
+            font-family: 'SF Mono', 'Consolas', monospace;
         }
 
         .terminal-body {
-            min-height: 500px;
-            max-height: 70vh;
+            flex: 1;
+            padding: 15px;
             overflow-y: auto;
-            padding: 20px;
-            background: linear-gradient(to bottom, #1a1a1a, #151515);
-            position: relative;
-        }
-
-        .terminal-body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.15),
-                rgba(0, 0, 0, 0.15) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            pointer-events: none;
-        }
-
-        .command-line {
-            display: flex;
-            margin-bottom: 10px;
-            position: relative;
-        }
-
-        .prompt {
-            color: #ff0080;
-            margin-right: 10px;
-            white-space: nowrap;
-        }
-
-        .command-input {
-            background: transparent;
-            border: none;
-            color: #f0f0f0;
-            font-family: 'Fira Code', monospace;
-            width: 100%;
-            outline: none;
-            caret-color: #ff0080;
-        }
-
-        .command-input::after {
-            content: '|';
-            animation: blink 1s infinite;
-            color: #ff0080;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #e0e0e0;
         }
 
         .output {
-            margin-bottom: 15px;
             white-space: pre-wrap;
-            line-height: 1.5;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+            margin-bottom: 10px;
+            color: #e0e0e0;
         }
 
         .command-history {
             margin-bottom: 10px;
         }
 
-        .success {
-            color: #00ff00;
-            text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+        .command-line {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
         }
 
-        .error {
-            color: #ff0000;
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+        .prompt {
+            color: #4CAF50;
+            margin-right: 10px;
+            font-weight: bold;
         }
 
-        .info {
-            color: #00ffff;
-            text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        .command-input {
+            background: transparent;
+            border: none;
+            color: #e0e0e0;
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 14px;
+            flex: 1;
+            outline: none;
+            caret-color: #e0e0e0;
         }
 
-        .warning {
-            color: #ffa500;
-            text-shadow: 0 0 5px rgba(255, 165, 0, 0.3);
+        .command-input::placeholder {
+            color: #666;
         }
 
-        .blink {
-            animation: blink 1s infinite;
+        /* Scrollbar styling */
+        .terminal-body::-webkit-scrollbar {
+            width: 8px;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        .terminal-body::-webkit-scrollbar-track {
+            background: #2d2d2d;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb {
+            background: #4d4d4d;
+            border-radius: 4px;
+        }
+
+        .terminal-body::-webkit-scrollbar-thumb:hover {
+            background: #5d5d5d;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .terminal-container {
+                width: 200%;
+                height: 500px;
+                margin: 20px auto;
+            }
         }
 
         .terminal-footer {
@@ -185,24 +167,6 @@
 
         .status-item i {
             color: #ff0080;
-        }
-
-        /* Scrollbar styling */
-        .terminal-body::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .terminal-body::-webkit-scrollbar-track {
-            background: #1a1a1a;
-        }
-
-        .terminal-body::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-
-        .terminal-body::-webkit-scrollbar-thumb:hover {
-            background: #444;
         }
 
         /* Command highlight effect */
@@ -237,6 +201,22 @@
             50% { filter: blur(8px) opacity(0.8); }
             100% { filter: blur(5px) opacity(0.5); }
         }
+
+        /* Terminal logo styling */
+        .terminal-logo {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .terminal-logo img {
+            filter: drop-shadow(0 0 10px rgba(255, 0, 128, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .terminal-logo img:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -255,12 +235,15 @@
     </nav>
 
     <div class="container">
+        <div class="terminal-logo">
+            <img src="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png" alt="Andro-CLI Logo" height="80">
+        </div>
         <div class="terminal-container">
             <div class="terminal-header">
-                <div class="terminal-buttons">
-                    <div class="terminal-button close"></div>
-                    <div class="terminal-button minimize"></div>
-                    <div class="terminal-button maximize"></div>
+                <div class="terminal-controls">
+                    <div class="control close"></div>
+                    <div class="control minimize"></div>
+                    <div class="control maximize"></div>
                 </div>
                 <h2 class="terminal-title">andro-cli@terminal ~</h2>
             </div>
