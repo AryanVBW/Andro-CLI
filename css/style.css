@@ -947,4 +947,120 @@ a {
 
 a:hover {
     text-shadow: 0 0 8px rgba(255, 0, 128, 0.5);
+}
+
+/* Ethical Hacking Section */
+.ethical-hacking {
+    padding: 4rem 0;
+    background-color: #f8f9fa;
+}
+
+.ethical-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.ethical-text {
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ethical-text h3 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.ethical-text ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.ethical-text ul li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.ethical-text ul li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #007bff;
+}
+
+.disclaimer {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 4px;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.disclaimer i {
+    color: #856404;
+    font-size: 1.2rem;
+}
+
+.disclaimer p {
+    color: #856404;
+    margin: 0;
+}
+
+.use-cases {
+    padding: 2rem;
+}
+
+.use-case-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.use-case-card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.use-case-card:hover {
+    transform: translateY(-5px);
+}
+
+.use-case-card i {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+}
+
+.use-case-card h4 {
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.use-case-card p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .ethical-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .use-case-grid {
+        grid-template-columns: 1fr;
+    }
 } 

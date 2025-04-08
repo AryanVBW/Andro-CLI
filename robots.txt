@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /commands.html
+Allow: /about.html
+Allow: /terminal.html
+Allow: /css/
+Allow: /js/
+Allow: /public/
+
+# Sitemap
+Sitemap: https://aryanvbw.github.io/Andro-CLI/sitemap.xml 

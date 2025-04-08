@@ -3,7 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Andro-CLI Terminal</title>
+    <title>Try Andro-CLI | Interactive Android Remote Administration Tool Demo</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Try Andro-CLI | Interactive Android Remote Administration Tool Demo">
+    <meta name="description" content="Experience Andro-CLI in action with our interactive terminal demo. Test Android remote administration commands and explore the tool's capabilities for ethical hacking and security research.">
+    <meta name="keywords" content="andro-cli demo, android rat demo, remote administration demo, ethical hacking tools, android security testing, interactive terminal">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aryanvbw.github.io/Andro-CLI/terminal.html">
+    <meta property="og:title" content="Try Andro-CLI | Interactive Android Remote Administration Tool Demo">
+    <meta property="og:description" content="Experience Andro-CLI in action with our interactive terminal demo. Test Android remote administration commands and explore the tool's capabilities for ethical hacking and security research.">
+    <meta property="og:image" content="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://aryanvbw.github.io/Andro-CLI/terminal.html">
+    <meta property="twitter:title" content="Try Andro-CLI | Interactive Android Remote Administration Tool Demo">
+    <meta property="twitter:description" content="Experience Andro-CLI in action with our interactive terminal demo. Test Android remote administration commands and explore the tool's capabilities for ethical hacking and security research.">
+    <meta property="twitter:image" content="https://github.com/AryanVBW/Andro-CLI/releases/download/Logos/Bgless2.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Andro-CLI Terminal Demo",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Web Browser",
+        "description": "Interactive terminal demo for Andro-CLI Android Remote Administration Tool",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "AryanVBW"
+        }
+    }
+    </script>
+
+    <link rel="icon" href="public/logo.svg" type="image/svg+xml">
+    <link rel="icon" href="public/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="public/logo.png">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -43,11 +87,25 @@
         }
 
         .terminal-header {
-            background-color: #2d2d2d;
-            padding: 10px 15px;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid #3d3d3d;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .site-logo {
+            width: 32px;
+            height: 32px;
+            margin-right: 10px;
+        }
+
+        .terminal-title {
+            color: #00ff00;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
         }
 
         .terminal-controls {
@@ -65,12 +123,6 @@
         .control.close { background-color: #ff5f56; }
         .control.minimize { background-color: #ffbd2e; }
         .control.maximize { background-color: #27c93f; }
-
-        .terminal-title {
-            color: #888;
-            font-size: 14px;
-            font-family: 'SF Mono', 'Consolas', monospace;
-        }
 
         .terminal-body {
             flex: 1;
@@ -1172,12 +1224,8 @@
         </div>
         <div class="terminal-container">
             <div class="terminal-header">
-                <div class="terminal-controls">
-                    <div class="control close"></div>
-                    <div class="control minimize"></div>
-                    <div class="control maximize"></div>
-                </div>
-                <h2 class="terminal-title">andro-cli@terminal ~</h2>
+                <img src="public/logo.svg" alt="Andro-CLI Logo" class="site-logo">
+                <div class="terminal-title">Andro-CLI Terminal</div>
                 <div class="mode-indicator mode-normal" id="modeIndicator">NORMAL</div>
             </div>
             <div class="terminal-body" id="terminalBody">
