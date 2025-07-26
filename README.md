@@ -31,6 +31,14 @@ Andro-CLI requires
 - zipalign
 
 ## Installation
+
+### From PyPI (Recommended)
+
+```
+pip install androcli
+```
+### From Source
+
 ```
 wget https://github.com/AryanVBW/Andro-CLI/releases/download/ARDro2/androcli.zip && unzip androcli.zip
 cd androcli
